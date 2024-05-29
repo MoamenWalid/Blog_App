@@ -2,12 +2,12 @@ import express from 'express';
 import { registerUserCtrl } from '../controllers/registerController.js';
 import { loginUserCtrl } from '../controllers/loginController.js';
 
-const router = express.Router();
+const routerAuth = express.Router();
 
 // /api/auth/register 
-router.post('/register', registerUserCtrl);
+routerAuth.post('/register', registerUserCtrl);
 
 // /api/auth/login 
-router.post('/login', loginUserCtrl);
+routerAuth.post('/login', loginUserCtrl);
 
-export { router };
+export { routerAuth };

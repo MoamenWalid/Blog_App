@@ -7,7 +7,7 @@ import { User, validateLoginUser } from "../models/User.js";
  * @router  /api/auth/login
  * @method  POST
  * @access  public
-  -----------------------------------------*/
+------------------------------------------*/
 
 const loginUserCtrl = asyncHandler(async (req, res) => {
   // Validation
