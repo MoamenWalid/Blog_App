@@ -25,4 +25,12 @@ const verifyTokenAndAdmin = (req, res, next) => {
   });
 }
 
-export { verifyTokenAndAdmin };
+// Verify token & only user himself
+const verifyTokenAndOnlyUser = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.id == req.params.id) return next();
+    res.status(403).json({ message: "not allowed, only user himself" });
+  });
+}
+
+export { verifyTokenAndAdmin, verifyTokenAndOnlyUser };

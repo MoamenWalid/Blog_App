@@ -42,7 +42,7 @@ const schema = {
     type: Boolean,
     default: false,
   },
-}
+};
 
 const UserSchema = new Schema(schema, { timeseries: true });
 
@@ -79,4 +79,15 @@ const validateLoginUser = (obj) => {
   return schema.validate(obj);
 };
 
-export { User, validateRegisterUser, validateLoginUser };
+// Validate update user
+const validateUpdateUser = (obj) => {
+  const schema = Joi.object({
+    username: Joi.string().trim().min(2).max(100),
+    password: Joi.string().trim().min(8),
+    bio: Joi.string(),
+  });
+
+  return schema.validate(obj);
+};
+
+export { User, validateRegisterUser, validateLoginUser, validateUpdateUser };
