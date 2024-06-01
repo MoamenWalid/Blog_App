@@ -26,10 +26,8 @@ const schema = {
   },
   profilePhoto: {
     type: Object,
-    default: {
-      photo: "../photos/male.png",
-      publicid: null,
-    },
+    photo: "/back-end/photos/profile.png",
+    publicid: null,
   },
   bio: {
     type: String,

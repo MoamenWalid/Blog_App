@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 const dirName = path.dirname(__dirname);
 
 // Photo storage
-const photoStorage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(dirName, '/photos'));
   },
@@ -18,13 +18,16 @@ const photoStorage = multer.diskStorage({
   }
 })
 
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) return cb(null, true);
+  cb({ message: "Unsuported file format" }, false);
+}
+
 // Photo upload middleware
 const photoUpload = multer({
-  storage: photoStorage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith("image")) cb(null, true);
-    else cb({ message: "Unsuported file format" }, false);
-  },
+  storage,
+  fileFilter,
+  limits: { fileSize: 1024 * 1024 },
 })
 
-export { photoUpload };
+export { photoUpload, dirName };

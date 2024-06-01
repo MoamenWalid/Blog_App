@@ -1,7 +1,12 @@
 import asyncHandler from "express-async-handler";
 import { User, validateUpdateUser } from "../models/User.js";
 import { response } from "express";
+import path from 'node:path';
+import fs from 'node:fs';
 import bcrypt from "bcryptjs";
+import { dirName } from "../middlewares/photoUpload.js";
+import { cloudinaryRemoveImage, cloudinaryUploadImage } from "../utils/cloudinary.js";
+
 
 /**-----------------------------------------
  * @desc    Get all users profile
@@ -78,8 +83,36 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
 ------------------------------------------*/
 
 const profilePhotoUploadCtrl = asyncHandler(async (req, res) => {
-  console.log(req.file);
-  res.status(200).json({ message: "your profile photo upload successfully" });
+  // Validation
+  if (!req.file) return res.status(400).json({ message: 'no file provided' });
+
+  // Get the path to the image
+  const iamgePath = path.join(dirName, `/photos/${ req.file.filename }`);
+
+  // Upload to cloudinary
+  const result = await cloudinaryUploadImage(iamgePath);
+
+  // Get the user from DB
+  const user = await User.findById(req.user.id);
+
+  // Delete the old profile photo if exist
+  if (user.profilePhoto.publicid !== null) await cloudinaryRemoveImage(user.profilePhoto.publicid);
+
+  // Change the profilePhoto field in the DB
+  user.profilePhoto = {
+    url: result.secure_url,
+    publicid: result.public_id
+  }
+  await user.save();
+
+  // Send response to client
+  res.status(200).json({
+    message: "your profile photo upload successfully",
+    profilePhoto: { url: result.secure_url, publicid: result.public_id }
+  });
+
+  // Remove image from the server
+  fs.unlinkSync(iamgePath);
 });
 
 export {
