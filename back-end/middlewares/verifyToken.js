@@ -33,4 +33,4 @@ const verifyTokenAndOnlyUser = (req, res, next) => {
   });
 }
 
-export { verifyTokenAndAdmin, verifyTokenAndOnlyUser };
+export { verifyToken, verifyTokenAndAdmin, verifyTokenAndOnlyUser };
