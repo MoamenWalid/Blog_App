@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import asyncHandler from "express-async-handler";
 import { Post, validateCreatePost, validateUpdatePost } from "../models/Post.js";
-import { cloudinaryUploadImage } from "../utils/cloudinary.js";
+import { cloudinaryRemoveImage, cloudinaryUploadImage } from "../utils/cloudinary.js";
 import { dirName } from "../middlewares/photoUpload.js";
 
 /**-----------------------------------------
@@ -94,4 +94,24 @@ const getPostsCountCtrl = asyncHandler(async (req, res) => {
   res.status(200).json({ count });
 })
 
-export { createPostCtrl, getAllPostsCtrl, getSinglePostCtrl, getPostsCountCtrl };
+
+/**-----------------------------------------------
+ * @desc    Delete post
+ * @router  /api/posts/:id
+ * @method  DELETE
+ * @access  private (only admin or user himself)
+------------------------------------------------*/
+
+const deletePostCtrl = asyncHandler(async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  if (!post) return res.status(404).json({ message: "post not found" });
+  if (req.user.isAdmin || req.user.id == post.user.toString()) {
+    await Post.findByIdAndDelete(req.params.id);
+    await cloudinaryRemoveImage(post.image.publicId);
+    res.status(200).json({ message: "post has been deleted successfully", postId: post._id });
+  } else {
+    res.status(403).json({ message: 'access denied, forbidden' });
+  }
+})
+
+export { createPostCtrl, getAllPostsCtrl, getSinglePostCtrl, getPostsCountCtrl, deletePostCtrl };

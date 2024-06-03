@@ -2,7 +2,7 @@ import express from 'express';
 import { photoUpload } from '../middlewares/photoUpload.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
 import { validateObjectId } from '../middlewares/validateObjectId.js';
-import { createPostCtrl, getAllPostsCtrl, getPostsCountCtrl, getSinglePostCtrl } from '../controllers/postController.js';
+import { createPostCtrl, deletePostCtrl, getAllPostsCtrl, getPostsCountCtrl, getSinglePostCtrl } from '../controllers/postController.js';
 
 const routerPosts = express.Router();
 
@@ -17,6 +17,7 @@ routerPosts.route('/count')
 
 // /api/posts/:id
 routerPosts.route('/:id')
-  .get(validateObjectId, getSinglePostCtrl);
+  .get(validateObjectId, getSinglePostCtrl)
+  .delete(validateObjectId, verifyToken, deletePostCtrl);
 
 export { routerPosts };
