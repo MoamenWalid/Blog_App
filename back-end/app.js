@@ -3,6 +3,7 @@ import { connectDB } from './config/connectToDB.js';
 import 'dotenv/config';
 import { routerAuth } from './routes/authRoute.js';
 import { routerUsers } from './routes/usersRoute.js';
+import { routerPosts } from './routes/postRoute.js';
 
 // Connect to DB
 connectDB();
@@ -16,6 +17,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', routerAuth);
 app.use('/api/users', routerUsers);
+app.use('/api/posts', routerPosts)
 
 // Running the server
 const PORT = process.env.PORT | 8000;

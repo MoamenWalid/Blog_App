@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteUserProfileCtrl,
   getAllUsersCtrl,
   getSingleUserCtrl,
   getUsersCountCtrl,
@@ -9,6 +10,7 @@ import {
 import {
   verifyToken,
   verifyTokenAndAdmin,
+  verifyTokenAndAuthorization,
   verifyTokenAndOnlyUser,
 } from "../middlewares/verifyToken.js";
 import { validateObjectId } from "../middlewares/validateObjectId.js";
@@ -25,7 +27,8 @@ routerUsers.route("/count").get(verifyTokenAndAdmin, getUsersCountCtrl);
 // /api/users/profile/:id
 routerUsers.route("/profile/:id")
   .get(validateObjectId, getSingleUserCtrl)
-  .patch(validateObjectId, verifyTokenAndOnlyUser, updateUserCtrl);
+  .patch(validateObjectId, verifyTokenAndOnlyUser, updateUserCtrl)
+  .delete(validateObjectId, verifyTokenAndAuthorization, deleteUserProfileCtrl)
 
 // /api/users/profile/profile-photo-upload
 routerUsers.route("/profile/profile-photo-upload")

@@ -1,12 +1,14 @@
 import asyncHandler from "express-async-handler";
 import { User, validateUpdateUser } from "../models/User.js";
 import { response } from "express";
-import path from 'node:path';
-import fs from 'node:fs';
+import path from "node:path";
+import fs from "node:fs";
 import bcrypt from "bcryptjs";
 import { dirName } from "../middlewares/photoUpload.js";
-import { cloudinaryRemoveImage, cloudinaryUploadImage } from "../utils/cloudinary.js";
-
+import {
+  cloudinaryRemoveImage,
+  cloudinaryUploadImage,
+} from "../utils/cloudinary.js";
 
 /**-----------------------------------------
  * @desc    Get all users profile
@@ -84,10 +86,10 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
 
 const profilePhotoUploadCtrl = asyncHandler(async (req, res) => {
   // Validation
-  if (!req.file) return res.status(400).json({ message: 'no file provided' });
+  if (!req.file) return res.status(400).json({ message: "no file provided" });
 
   // Get the path to the image
-  const iamgePath = path.join(dirName, `/photos/${ req.file.filename }`);
+  const iamgePath = path.join(dirName, `/photos/${req.file.filename}`);
 
   // Upload to cloudinary
   const result = await cloudinaryUploadImage(iamgePath);
@@ -96,23 +98,51 @@ const profilePhotoUploadCtrl = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 
   // Delete the old profile photo if exist
-  if (user.profilePhoto.publicid !== null) await cloudinaryRemoveImage(user.profilePhoto.publicid);
+  if (user.profilePhoto.publicid !== null)
+    await cloudinaryRemoveImage(user.profilePhoto.publicid);
 
   // Change the profilePhoto field in the DB
   user.profilePhoto = {
     url: result.secure_url,
-    publicid: result.public_id
-  }
+    publicid: result.public_id,
+  };
   await user.save();
 
   // Send response to client
   res.status(200).json({
     message: "your profile photo upload successfully",
-    profilePhoto: { url: result.secure_url, publicid: result.public_id }
+    profilePhoto: { url: result.secure_url, publicid: result.public_id },
   });
 
   // Remove image from the server
   fs.unlinkSync(iamgePath);
+});
+
+/**-----------------------------------------------
+ * @desc    Delete user profile (Account)
+ * @router  /api/users/profile/:id
+ * @method  DELETE
+ * @access  private (only admin or user himself)
+------------------------------------------------*/
+
+const deleteUserProfileCtrl = asyncHandler(async (req, res) => {
+  // Get the user from DB
+  const user = await User.findById(req.params.id);
+  if (!user) return res.status(400).json({ message: "user not found" });
+
+
+  // Get all posts from DB
+  // Get the public ids from the posts
+  // Delete all posts image from cloudinary that belong to this user
+  // Delete the profile picture from cloudinary
+  await cloudinaryRemoveImage(user.profilePhoto.publicid);
+
+  // Delete user posts & comments
+  // Delete the user himself
+  await User.findByIdAndDelete(req.params.id);
+
+  // Send a response to the client
+  res.status(200).json({ message: "your profile has been deleted" });
 });
 
 export {
@@ -121,4 +151,5 @@ export {
   getSingleUserCtrl,
   updateUserCtrl,
   profilePhotoUploadCtrl,
+  deleteUserProfileCtrl,
 };
