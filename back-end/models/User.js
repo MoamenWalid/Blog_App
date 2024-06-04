@@ -26,8 +26,10 @@ const schema = {
   },
   profilePhoto: {
     type: Object,
-    photo: "/back-end/photos/profile.png",
-    publicid: null,
+    default: {
+      url: "/back-end/photos/profile.png",
+      publicId: null
+    },
   },
   bio: {
     type: String,
@@ -42,7 +44,14 @@ const schema = {
   },
 };
 
-const UserSchema = new Schema(schema, { timeseries: true });
+const UserSchema = new Schema(schema, { timeseries: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+// Populate posts that belongs to that this user when he/she get his/her profile
+UserSchema.virtual('posts', {
+  ref: 'Post',
+  foreignField: 'user',
+  localField: '_id'
+})
 
 // Generage auth token
 UserSchema.methods.generateAuthToken = function () {

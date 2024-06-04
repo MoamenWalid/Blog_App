@@ -35,14 +35,14 @@ const getUsersCountCtrl = asyncHandler(async (req, res) => {
 });
 
 /**-----------------------------------------
- * @desc    Get single user profile
+ * @desc    Get user profile
  * @router  /api/users/profile/:id
  * @method  GET
  * @access  public
 ------------------------------------------*/
 
 const getSingleUserCtrl = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select("-password");
+  const user = await User.findById(req.params.id).select("-password").populate('posts');
   if (!user) return res.status(400).json({ message: "user not found" });
   res.status(200).json(user);
 });
@@ -98,20 +98,19 @@ const profilePhotoUploadCtrl = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 
   // Delete the old profile photo if exist
-  if (user.profilePhoto.publicid !== null)
-    await cloudinaryRemoveImage(user.profilePhoto.publicid);
+  if (user.profilePhoto.publicId !== null) await cloudinaryRemoveImage(user.profilePhoto.publicId);
 
   // Change the profilePhoto field in the DB
   user.profilePhoto = {
     url: result.secure_url,
-    publicid: result.public_id,
+    publicId: result.public_id,
   };
   await user.save();
 
   // Send response to client
   res.status(200).json({
     message: "your profile photo upload successfully",
-    profilePhoto: { url: result.secure_url, publicid: result.public_id },
+    profilePhoto: { url: result.secure_url, publicId: result.public_id },
   });
 
   // Remove image from the server
@@ -135,7 +134,7 @@ const deleteUserProfileCtrl = asyncHandler(async (req, res) => {
   // Get the public ids from the posts
   // Delete all posts image from cloudinary that belong to this user
   // Delete the profile picture from cloudinary
-  await cloudinaryRemoveImage(user.profilePhoto.publicid);
+  await cloudinaryRemoveImage(user.profilePhoto.publicId);
 
   // Delete user posts & comments
   // Delete the user himself
