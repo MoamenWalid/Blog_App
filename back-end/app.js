@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { routerAuth } from './routes/authRoute.js';
 import { routerUsers } from './routes/usersRoute.js';
 import { routerPosts } from './routes/postRoute.js';
+import { routerComments } from './routes/commentRoute.js';
 
 // Connect to DB
 connectDB();
@@ -17,7 +18,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', routerAuth);
 app.use('/api/users', routerUsers);
-app.use('/api/posts', routerPosts)
+app.use('/api/posts', routerPosts);
+app.use('/api/comments', routerComments);
 
 // Running the server
 const PORT = process.env.PORT | 8000;
