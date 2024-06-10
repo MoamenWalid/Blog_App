@@ -5,6 +5,8 @@ import { routerAuth } from './routes/authRoute.js';
 import { routerUsers } from './routes/usersRoute.js';
 import { routerPosts } from './routes/postRoute.js';
 import { routerComments } from './routes/commentRoute.js';
+import { routerCategory } from './routes/categoriesRoute.js';
+import { errorHandler, notFound } from './middlewares/error.js';
 
 // Connect to DB
 connectDB();
@@ -20,6 +22,11 @@ app.use('/api/auth', routerAuth);
 app.use('/api/users', routerUsers);
 app.use('/api/posts', routerPosts);
 app.use('/api/comments', routerComments);
+app.use('/api/categories', routerCategory)
+
+// Error handler middleware
+app.use(notFound);
+app.use(errorHandler);
 
 // Running the server
 const PORT = process.env.PORT | 8000;

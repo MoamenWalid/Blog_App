@@ -11,7 +11,6 @@ import { dirName } from "../middlewares/photoUpload.js";
  * @method  POST
  * @access  private (only logged in user)
 ------------------------------------------*/
-
 const createPostCtrl = asyncHandler(async (req, res) => {
   // Validation for image
   if (!req.file) return res.status(400).json({ message: "no image provided" });
@@ -51,7 +50,6 @@ const createPostCtrl = asyncHandler(async (req, res) => {
  * @method  GET
  * @access  public
 ------------------------------------------*/
-
 const getAllPostsCtrl = asyncHandler(async (req, res) => {
   const { page, category } = req.query;
   const  POST_PER_PAGE = 3;
@@ -75,9 +73,10 @@ const getAllPostsCtrl = asyncHandler(async (req, res) => {
  * @method  GET
  * @access  public
 ------------------------------------------*/
-
 const getSinglePostCtrl = asyncHandler(async (req, res) => {
-  const post = await Post.findById(req.params.id).populate('user', ["-password"]);
+  const post = await Post.findById(req.params.id)
+    .populate('user', ["-password"])
+    .populate('comments');
   if (!post) return res.status(404).json({ message: 'post not found' });
   res.status(200).json(post);
 })
@@ -89,7 +88,6 @@ const getSinglePostCtrl = asyncHandler(async (req, res) => {
  * @method  GET
  * @access  public
 ------------------------------------------*/
-
 const getPostsCountCtrl = asyncHandler(async (req, res) => {
   const count = await Post.countDocuments();
   res.status(200).json({ count });
@@ -102,13 +100,13 @@ const getPostsCountCtrl = asyncHandler(async (req, res) => {
  * @method  DELETE
  * @access  private (only admin or user himself)
 ------------------------------------------------*/
-
 const deletePostCtrl = asyncHandler(async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (!post) return res.status(404).json({ message: "post not found" });
   if (req.user.isAdmin || req.user.id == post.user.toString()) {
     await Post.findByIdAndDelete(req.params.id);
     await cloudinaryRemoveImage(post.image.publicId);
+    await Comment.deleteMany({ postId: post._id });
     res.status(200).json({ message: "post has been deleted successfully", postId: post._id });
   } else {
     res.status(403).json({ message: 'access denied, forbidden' });
@@ -122,7 +120,6 @@ const deletePostCtrl = asyncHandler(async (req, res) => {
  * @method  PATCH
  * @access  private (only user himself)
 ------------------------------------------------*/
-
 const updatePostCtrl = asyncHandler(async (req, res) => {
   // Validation
   const { error } = validateUpdatePost(req.body);
@@ -157,7 +154,6 @@ const updatePostCtrl = asyncHandler(async (req, res) => {
  * @method  PATCH
  * @access  private (only user himself)
 ------------------------------------------------*/
-
 const updatePostImageCtrl = asyncHandler(async (req, res) => {
   // Validation
   if (!req.file) return res.status(400).json({ message: "no image provided" });
@@ -202,7 +198,6 @@ const updatePostImageCtrl = asyncHandler(async (req, res) => {
  * @method  PATCH
  * @access  private (only logged in user)
 ------------------------------------------------*/
-
 const toggleLikeCtrl = asyncHandler(async (req, res) => {
   const { id: loggedInUser } = req.user;
   const { id: postId } = req.params;

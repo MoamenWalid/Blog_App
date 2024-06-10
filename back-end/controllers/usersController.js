@@ -7,8 +7,10 @@ import bcrypt from "bcryptjs";
 import { dirName } from "../middlewares/photoUpload.js";
 import {
   cloudinaryRemoveImage,
+  cloudinaryRemoveImages,
   cloudinaryUploadImage,
 } from "../utils/cloudinary.js";
+import { Post } from "../models/Post.js";
 
 /**-----------------------------------------
  * @desc    Get all users profile
@@ -129,14 +131,21 @@ const deleteUserProfileCtrl = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) return res.status(400).json({ message: "user not found" });
 
-
   // Get all posts from DB
+  const posts = await Post.find({ user: user._id });
+
   // Get the public ids from the posts
+  const publicIds = posts?.map(post => post.image.publicId);
+
   // Delete all posts image from cloudinary that belong to this user
+  if (publicIds?.length) await cloudinaryRemoveImages(publicIds);
+
   // Delete the profile picture from cloudinary
   await cloudinaryRemoveImage(user.profilePhoto.publicId);
 
   // Delete user posts & comments
+  await Post.deleteMany({ user: user._id });
+  await Comment.deleteMany({ user: user._id });
   // Delete the user himself
   await User.findByIdAndDelete(req.params.id);
 
