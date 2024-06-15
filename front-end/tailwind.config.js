@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       colors: {
         white: 'var(--white-color)',
+        'white-gray': 'var(--white-gray)',
         gray: 'var(--gray-color)',
         dark: 'var(--dark-color)',
         black: 'var(--black-color)',

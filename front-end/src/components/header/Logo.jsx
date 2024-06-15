@@ -1,9 +1,9 @@
 const Logo = () => {
   return (
-    <div className="logo">
-      <img src="/imgs/logoLight.png" alt="logo" />
+    <div className="logo w-[130px] md:w-[158px]">
+      <img src="/imgs/logoLight.svg" alt="logo" />
     </div>
-  );
+  );  
 };
 
 export default Logo;
