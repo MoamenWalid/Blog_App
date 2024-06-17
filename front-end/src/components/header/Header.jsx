@@ -8,13 +8,17 @@ import SidebarLinks from "./SidebarLinks";
 const Header = () => {
   const [toggle, setToggle] = useState(false);
 
-  const reverseToggle = () => setToggle(prev => !prev);
+  const reverseToggle = () => {
+    const overlayout = document.querySelector('div.overlayout');
+    setToggle(prev => !prev);
+    toggle ? overlayout.classList.replace('block', 'hidden') : overlayout.classList.replace('hidden', 'block');
+  }
 
   return (
-    <header className="backdrop:blur-[6px] fixed top-0 left-0 w-full z-[2]">
-      <div className="mx-4 md:mx-10 my-5 flex flex-row items-center justify-between">
+    <header className="backdrop-blur-[6px] py-5 sticky top-0 left-0 w-full z-[2]">
+      <div className="mx-4 md:mx-10 flex flex-row items-center justify-between">
         <Logo />
-        <NavLinks navStyle={ `hidden  md:block` } ulStyle={ `flex flex-row gap-[40px]` } liStyle={ `text-[17px]` } />
+        <NavLinks navStyle={ `hidden  md:block` } ulStyle={ `flex flex-row gap-[25px] lg:gap-[40px]` } liStyle={ `text-[17px]` } />
         <div className="flex flex-row items-center justify-center gap-5">
           <LoginSignBtn />
           <button onClick={ reverseToggle } className="menu block md:hidden">
