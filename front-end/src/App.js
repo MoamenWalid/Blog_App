@@ -16,8 +16,12 @@ function App() {
         <Route path="/" element={ <Home /> } />
         <Route path="/login" element={ <Login /> } />
         <Route path="/sign-up" element={ <SignUp /> } />
-        <Route path="/posts" element={ <PostsPage /> } />
-        <Route path="/posts/create-post" element={ <CreatePost /> } />
+        
+        <Route path="posts">
+          <Route index element={ <PostsPage /> } />
+          <Route path="create-post" element={ <CreatePost /> } />
+        </Route>
+
         <Route path="/admin-dashboard" element={ <Admin /> } />
       </Routes>
     </BrowserRouter>
