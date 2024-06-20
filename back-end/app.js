@@ -7,6 +7,7 @@ import { routerPosts } from './routes/postRoute.js';
 import { routerComments } from './routes/commentRoute.js';
 import { routerCategory } from './routes/categoriesRoute.js';
 import { errorHandler, notFound } from './middlewares/error.js';
+import cors from 'cors';
 
 // Connect to DB
 connectDB();
@@ -16,6 +17,11 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
+
+// Cors policy
+app.use(cors({
+  origin: "http://localhost:3000"
+}))
 
 // Routes
 app.use('/api/auth', routerAuth);
