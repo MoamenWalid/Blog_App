@@ -1,9 +1,8 @@
+import Form from "./Form.jsx";
 
 const SignUp = () => {
   return (
-    <div>
-      <h1>Signup</h1>
-    </div>
+    <Form status="true" />
   );
 }
 

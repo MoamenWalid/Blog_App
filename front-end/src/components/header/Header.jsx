@@ -2,7 +2,7 @@ import { useState } from "react";
 import LoginSignBtn from "./LoginSignBtn";
 import Logo from "./Logo";
 import NavLinks from "./NavLinks";
-import "./header.css";
+import "./header.scss";
 import SidebarLinks from "./SidebarLinks";
 
 const Header = () => {

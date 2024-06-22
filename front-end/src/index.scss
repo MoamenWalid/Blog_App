@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --white-color: #FFF;
+  --white-gray: #f2f2f2;
+  --gray-color: #A1A1AA;
+  --dark-color: #181A2A;
+  --black-color: #000;
+  --blue-color: #4B6BFB;
+  --shadow-gray: #dddddd70;
+}
+
+// div#root {
+//   @apply flex flex-col justify-between min-h-screen;
+// }
+
+.overlayout {
+  backdrop-filter: blur(6px);
+  z-index: 1;
+}
+
+body {
+  &::before,
+  &::after {
+    content: '';
+    @apply fixed z-[-1] #{ !important };
+    box-shadow: -500px 0 600px 500px #ebc89d30, 752px -100px 600px 250px #ecaeaf4b, 251px 0 600px 250px #00d0ff1f;
+  }
+  &::before {
+    @apply right-[600px] top-[700px];
+  }
+  
+  &::after {
+    @apply left-[300px] top-[40%];
+  }
+}

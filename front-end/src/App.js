@@ -6,6 +6,7 @@ import SignUp from "./pages/forms/SignUp";
 import PostsPage from "./pages/posts-page/PostsPage";
 import Admin from "./pages/admin/Admin";
 import CreatePost from "./pages/create-post/CreatePost";
+// import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
 
         <Route path="/admin-dashboard" element={ <Admin /> } />
       </Routes>
+
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }

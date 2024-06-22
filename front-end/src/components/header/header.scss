@@ -1,0 +1,7 @@
+
+header {
+  box-shadow: 1px 2px 20px var(--shadow-gray);
+  .side-bar {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+}

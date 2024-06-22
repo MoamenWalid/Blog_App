@@ -1,0 +1,7 @@
+
+.form-login-signup {
+  input {
+    @apply border border-[#DDD] border-solid rounded-[10px] py-[8px] px-[10px];
+    outline: none;
+  }
+}
