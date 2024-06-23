@@ -4,4 +4,7 @@
     @apply border border-[#DDD] border-solid rounded-[10px] py-[8px] px-[10px];
     outline: none;
   }
+  span.error {
+    @apply text-[#f44336] pl-[5px] text-[15px];
+  }
 }
