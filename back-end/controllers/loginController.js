@@ -26,8 +26,8 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   const token = user.generateAuthToken();
 
   // Send a response to client
-  const { _id, isAdmin, profilePhoto } = user;
-  res.status(200).json({ _id, isAdmin, profilePhoto, token });
+  const { _id, isAdmin, username, profilePhoto } = user;
+  res.status(200).json({ _id, isAdmin, username, profilePhoto, token });
 })
 
 export { loginUserCtrl };

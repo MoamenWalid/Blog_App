@@ -6,7 +6,7 @@ import SignUp from "./pages/forms/SignUp";
 import PostsPage from "./pages/posts-page/PostsPage";
 import Admin from "./pages/admin/Admin";
 import CreatePost from "./pages/create-post/CreatePost";
-// import Footer from "./components/footer/Footer";
+import Profile from "./pages/profiles/Profile";
 
 function App() {
   return (
@@ -23,10 +23,11 @@ function App() {
           <Route path="create-post" element={ <CreatePost /> } />
         </Route>
 
+        <Route path="/profile/:id" element={ <Profile /> }/>
+
         <Route path="/admin-dashboard" element={ <Admin /> } />
       </Routes>
 
-      {/* <Footer /> */}
     </BrowserRouter>
   );
 }

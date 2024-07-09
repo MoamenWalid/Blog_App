@@ -1,8 +1,11 @@
 import { useFormik } from 'formik';
 import Form from "./Form.jsx";
 import { logInSchema } from './schema.js';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../components/redux/apiCalls/authApiCall.js';
 
 const Login = () => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -10,7 +13,7 @@ const Login = () => {
     },
     validationSchema: logInSchema,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      dispatch(loginUser(values));
     },
   });
 

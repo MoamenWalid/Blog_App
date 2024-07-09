@@ -27,7 +27,7 @@ const schema = {
   profilePhoto: {
     type: Object,
     default: {
-      url: "/back-end/photos/profile.png",
+      url: "../photos/profile.png",
       publicId: null
     },
   },
