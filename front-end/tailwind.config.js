@@ -22,7 +22,8 @@ module.exports = {
         '2xl' : '1400px'
       },
       fontFamily: {
-        workSans: ["Work Sans", 'sans-serif']
+        workSans: ["Work Sans", 'sans-serif'],
+        rajdhani: ["Rajdhani", 'sans-serif']
       }
     },
   },

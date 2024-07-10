@@ -7,25 +7,29 @@ import PostsPage from "./pages/posts-page/PostsPage";
 import Admin from "./pages/admin/Admin";
 import CreatePost from "./pages/create-post/CreatePost";
 import Profile from "./pages/profiles/Profile";
+import NotFoundPage from "./pages/notfound/NotFoundPage";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { user } = useSelector(state => state.auth);
+
   return (
     <BrowserRouter>
       <Header />
 
       <Routes>
         <Route path="/" element={ <Home /> } />
-        <Route path="/login" element={ <Login /> } />
-        <Route path="/sign-up" element={ <SignUp /> } />
+        <Route path="/login" element={ !user ? <Login /> : <NotFoundPage /> } />
+        <Route path="/sign-up" element={ !user ? <SignUp /> : <NotFoundPage /> } />
         
         <Route path="posts">
           <Route index element={ <PostsPage /> } />
           <Route path="create-post" element={ <CreatePost /> } />
         </Route>
 
-        <Route path="/profile/:id" element={ <Profile /> }/>
-
+        <Route path="/profile/:id" element={ user ? <Profile /> : <NotFoundPage /> }/>
         <Route path="/admin-dashboard" element={ <Admin /> } />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
     </BrowserRouter>

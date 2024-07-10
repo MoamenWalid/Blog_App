@@ -11,7 +11,7 @@ const Profile = () => {
           <img className="w-full h-full object-cover" src={ user?.profilePhoto.url } alt="avatar" />
         </div>
         <div className="upload-img cursor-pointer border-gray border-[2px] absolute bottom-0 right-0 text-[20px] md:text-[26px] bg-white w-[29px] md:w-[37px] h-[29px] md:h-[37px] flex items-center justify-center rounded-full">
-          <i class="bi bi-camera"></i>
+          <i className="bi bi-camera"></i>
         </div>
       </div>
 
@@ -23,4 +23,3 @@ const Profile = () => {
 }
 
 export default Profile;
-

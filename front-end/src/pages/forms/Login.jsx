@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import Form from "./Form.jsx";
 import { logInSchema } from './schema.js';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../../components/redux/apiCalls/authApiCall.js';
+import { loginUser } from '../../components/redux/slices/authSlice.js';
 
 const Login = () => {
   const dispatch = useDispatch();
