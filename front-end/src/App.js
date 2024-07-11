@@ -24,11 +24,11 @@ function App() {
         
         <Route path="posts">
           <Route index element={ <PostsPage /> } />
-          <Route path="create-post" element={ <CreatePost /> } />
+          <Route path="create-post" element={ user ? <CreatePost /> : <NotFoundPage /> } />
         </Route>
 
         <Route path="/profile/:id" element={ user ? <Profile /> : <NotFoundPage /> }/>
-        <Route path="/admin-dashboard" element={ <Admin /> } />
+        <Route path="/admin-dashboard" element={ user?.isAdmin ? <Admin /> : <NotFoundPage /> } />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 

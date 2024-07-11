@@ -1,26 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
-import "./form.scss";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 
 const Form = ({ status, formik }) => {
-  const navigate = useNavigate();
   const [hideShowOne, setHideShowOne] = useState(true);
   const [hideShowTwo, setHideShowTwo] = useState(true);
-
-  const handleSubmitBtn = (e) => {
-    e.preventDefault();
-    if (!Object.keys(formik.errors).length) {
-      formik.handleSubmit();
-      navigate('/');
-    }
-  }
 
   return (
     <>
       <ToastContainer position="top-center" />
-      <div className="form-login-signup w-full flex items-start justify-center mt-6">
-        <div className="form-div py-[40px] md:py-[55px] px-[40px] rounded-[24px] w-[90%] sm:w-[450px] bg-[#ffffff9e] border border-[#EEE]">
+      <div className="form-parent">
+        <div className="form-div">
           <h1 className="text-black font-medium text-[32px] mb-[32px]">
             {status ? "Create an account" : "Login"}
           </h1>
@@ -124,7 +114,7 @@ const Form = ({ status, formik }) => {
               </div>
             )}
       
-            <button onClick={handleSubmitBtn} type="submit" className="form-btn w-full border border-solid border-gray py-[10px] rounded-[32px] mb-[32px]">
+            <button type="submit" className="form-btn">
               {status ? "Create an account" : "Login"}
             </button>
             {!status && (

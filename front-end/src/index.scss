@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+textarea {
+  resize: none;
+}
+
+// Root
 :root {
   --white-color: #FFF;
   --white-gray: #f2f2f2;
@@ -12,11 +17,13 @@
   --shadow-gray: #dddddd70;
 }
 
+// Overlayout
 .overlayout {
   backdrop-filter: blur(6px);
   z-index: 1;
 }
 
+// Body
 body {
   &::before,
   &::after {
@@ -30,5 +37,28 @@ body {
   
   &::after {
     @apply left-[300px] top-[40%];
+  }
+}
+
+// Forms
+.form-parent {
+  @apply w-full flex items-start justify-center mt-6;
+  .form-div {
+    @apply py-[40px] md:py-[55px] px-[40px] rounded-[24px] w-[90%] sm:w-[450px] bg-[#ffffff9e] border border-[#EEE];
+    input,
+    textarea,
+    select {
+      @apply border border-[#DDD] border-solid rounded-[10px] py-[8px] px-[10px];
+      outline: none;
+    }
+    textarea {
+      height: 150px;
+    }
+    span.error {
+      @apply text-[#f44336] pl-[5px] text-[15px];
+    }
+    .form-btn {
+      @apply w-full border border-solid border-gray py-[10px] rounded-[32px] mb-[32px];
+    }
   }
 }
