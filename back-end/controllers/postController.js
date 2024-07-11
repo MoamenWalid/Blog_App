@@ -60,7 +60,6 @@ const getAllPostsCtrl = asyncHandler(async (req, res) => {
   let posts = await Post.find(query)
   .skip(page && skip)
   .limit(page && POST_PER_PAGE)
-  .sort({ createdAt: -1 })
   .populate('user', ["-password"]);
 
   res.status(200).json(posts);

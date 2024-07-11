@@ -27,7 +27,7 @@ const schema = {
   profilePhoto: {
     type: Object,
     default: {
-      url: "../photos/profile.png",
+      url: "https://cdn-icons-png.flaticon.com/512/847/847969.png",
       publicId: null
     },
   },
@@ -41,7 +41,7 @@ const schema = {
   isAccountVerified: {
     type: Boolean,
     default: false,
-  },
+  }
 };
 
 const UserSchema = new Schema(schema, { timeseries: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
