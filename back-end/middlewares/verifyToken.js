@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 const verifyToken = async (req, res, next) => {
   const authToken = req.headers.authorization;
   if (!authToken) {
-    return res.status(401).json({ mesasge: "no token provided, access denied" });
+    return res.status(401).json({ message: "no token provided, access denied" });
   }
 
   try {
