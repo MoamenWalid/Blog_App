@@ -23,7 +23,8 @@ const SignUp = () => {
       if (values.password !== values.confirmPassword) {
         formikHelper.setFieldError('confirmPassword', 'Must confirm password');
       }
-      dispatch(signUpUser(values));
+
+      else dispatch(signUpUser(values));
     },
   });
 

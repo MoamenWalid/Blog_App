@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { req } from "../../utils/request";
 import { toast } from "react-toastify";
-
+  
 export const loginUser = createAsyncThunk('auth/login', async (user, { rejectWithValue }) => {
   try {
     const { data } = await req.post("api/auth/login", user);
     return data;
 
   } catch (error) {
+    console.log(error);
     toast.error(error.response.data.message);
     return rejectWithValue(error.response.data.message);
   }
@@ -39,7 +40,6 @@ const authSlice = createSlice({
       state.signUpMessage = null
     }
   },
-
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.user = action.payload;

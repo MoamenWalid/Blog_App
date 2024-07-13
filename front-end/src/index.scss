@@ -45,20 +45,23 @@ body {
   @apply w-full flex items-start justify-center mt-6;
   .form-div {
     @apply py-[40px] md:py-[55px] px-[40px] rounded-[24px] w-[90%] sm:w-[450px] bg-[#ffffff9e] border border-[#EEE];
-    input,
-    textarea,
-    select {
-      @apply border border-[#DDD] border-solid rounded-[10px] py-[8px] px-[10px];
-      outline: none;
-    }
     textarea {
       height: 150px;
     }
-    span.error {
-      @apply text-[#f44336] pl-[5px] text-[15px];
-    }
-    .form-btn {
-      @apply w-full border border-solid border-gray py-[10px] rounded-[32px] mb-[32px];
-    }
   }
+}
+
+span.error {
+  @apply text-[#f44336] pl-[5px] text-[15px];
+}
+
+input,
+textarea,
+select {
+  @apply border border-[#DDD] border-solid rounded-[10px] py-[8px] px-[10px];
+  outline: none;
+}
+
+.form-btn {
+  @apply w-full border border-solid border-gray py-[10px] rounded-[32px] mb-[32px];
 }
