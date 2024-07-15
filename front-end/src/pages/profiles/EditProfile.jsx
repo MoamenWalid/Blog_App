@@ -28,7 +28,6 @@ const EditProfile = () => {
       username: profile?.username || "",
       email: profile?.email || "",
       bio: profile?.bio || "",
-      newPassword: "",
     },
     validationSchema: editProfileSchema,
     enableReinitialize: true,
@@ -125,29 +124,6 @@ const EditProfile = () => {
             />
             <span className="error">
               {formik.touched.bio && formik.errors.bio ? formik.errors.bio : null}
-            </span>
-          </div>
-      
-          <div className="new-password flex justify-center flex-col gap-2">
-            <label
-              className="ml-[5px] text-[#333] text-[16px]"
-              htmlFor="new-password"
-            >
-              New password
-            </label>
-            <input
-              type="password"
-              id="new-password"
-              name="newPassword"
-              placeholder="New password"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.newPassword}
-            />
-            <span className="error">
-              {formik.touched.newPassword && formik.errors.newPassword
-                ? formik.errors.newPassword
-                : null}
             </span>
           </div>
       

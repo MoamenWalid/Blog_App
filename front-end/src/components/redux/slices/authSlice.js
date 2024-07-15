@@ -7,6 +7,7 @@ export const loginUser = createAsyncThunk('auth/login', async (user, { rejectWit
     const { data } = await req.post("api/auth/login", user);
     return data;
 
+
   } catch (error) {
     console.log(error);
     toast.error(error.response.data.message);
@@ -38,6 +39,12 @@ const authSlice = createSlice({
     },
     clearSignUpMessage(state) {
       state.signUpMessage = null
+    },
+    setUserPhoto(state, action) {
+      state.user.profilePhoto = action.payload; 
+    },
+    setUsername(state, action) {
+      state.user.username = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -52,5 +59,5 @@ const authSlice = createSlice({
   }
 })
 
-export const { logout, clearSignUpMessage } = authSlice.actions;
+export const { logout, clearSignUpMessage, setUserPhoto, setUsername } = authSlice.actions;
 export default authSlice.reducer;

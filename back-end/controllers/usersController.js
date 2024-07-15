@@ -59,7 +59,7 @@ const getSingleUserCtrl = asyncHandler(async (req, res) => {
 const updateUserCtrl = asyncHandler(async (req, res) => {
   const { error } = validateUpdateUser(req.body);
   if (error)
-    return response.status(400).json({ message: error.details[0].message });
+    return res.status(400).json({ message: error.details[0].message });
   if (req.body.password) {
     const salt = bcrypt.genSaltSync(10);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
@@ -69,6 +69,7 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
     {
       $set: {
         username: req.body.username,
+        email: req.body.email,
         password: req.body.password,
         bio: req.body.bio,
       },
@@ -76,7 +77,7 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
     { new: true }
   ).select("-password");
 
-  res.status(200).json(updateUser);
+  res.status(200).json({ updateUser, message: "Your profile data upload successfully" });
 });
 
 /**-----------------------------------------
