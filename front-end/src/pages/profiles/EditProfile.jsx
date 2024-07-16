@@ -4,7 +4,7 @@ import { getUser, updateProfile } from "../../components/redux/slices/profileSli
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { editProfileSchema } from "../forms/schema";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -38,6 +38,16 @@ const EditProfile = () => {
     },
   });
 
+  const handleChangeInput = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    if (file && file.type.startsWith('image/')) {
+      setPhoto(URL.createObjectURL(file));
+    } else {
+      toast.error("This file type is not supported.");
+    }
+  };
+
   return (
     <>
       <ToastContainer position="top-center" />
@@ -57,7 +67,7 @@ const EditProfile = () => {
             Choose a picture
           </label>
           <input
-            onChange={(e) => setPhoto(URL.createObjectURL(e.target.files[0]))}
+            onChange={handleChangeInput}
             style={{ display: "none" }}
             id="upload-img"
             type="file"
