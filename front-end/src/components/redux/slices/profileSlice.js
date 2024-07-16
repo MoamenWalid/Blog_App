@@ -7,68 +7,62 @@ export const getUser = createAsyncThunk('profile/getUser', async (id, { rejectWi
   try {
     const { data } = await req.get(`api/users/profile/${id}`);
     return data;
-
   } catch (error) {
     toast.error(error.response.data.message);
     return rejectWithValue(error.response.data.message);
   }
-})
+});
 
 export const updateProfile = createAsyncThunk('profile/updateProfile', async (profile, { rejectWithValue, getState, dispatch }) => {
   try {
     const state = getState().profile.profile;
-    const finishDataOfUser = {};
+    const updates = {};
 
-    // Prepare new data to send it to server
-    for (let [key, value] of Object.entries(profile)) {
-      if (key == 'photo' && value !== state.profilePhoto.url) {
-        const formData = new FormData();
-  
-        // Transform Blob to file Object
-        const response = await fetch(profile.photo);
-        const blob = await response.blob();
-        const file = new File([blob], "profile-photo.jpg", { type: blob.type });
-  
-        formData.append("image", file);
-  
-        const { data } = await req.post(`api/users/profile/profile-photo-upload`, formData, {
-          headers: {
-            Authorization: `Bearer ${getState().auth.user.token}`,
-            "Content-Type": "multipart/form-data"
-          }
-        });
-        
-        dispatch(setUserPhoto(data.profilePhoto));
-        toast.success(data.message);
-        if (localStorage.getItem('userInfo') && data) {
-          const user = JSON.parse(localStorage.getItem('userInfo'));
-          user.profilePhoto = data.profilePhoto;
-          localStorage.setItem('userInfo', JSON.stringify(user));
-        }
+    // Handle photo update
+    if (profile.photo && profile.photo !== state.profilePhoto.url) {
+      const formData = new FormData();
+      const response = await fetch(profile.photo);
+      const blob = await response.blob();
+      const extension = blob.type.split('/')[1];
+      formData.append("image", new File([blob], `profile-photo.${extension}`, { type: blob.type }));
 
-      }
-
-      else if (key !== 'photo' && value !== state[`${key}`]) {
-        if (localStorage.getItem('userInfo') && key == 'username') {
-          dispatch(setUsername(value));
-          const user = JSON.parse(localStorage.getItem('userInfo'));
-          user.username = value;
-          localStorage.setItem('userInfo', JSON.stringify(user));
-        }
-
-        finishDataOfUser[`${key}`] = value;
-      }
-    }
-    
-    if (Object.keys(finishDataOfUser).length) {
-      const { data } = await req.patch(`api/users/profile/${ state._id }`, finishDataOfUser, {
+      const { data } = await req.post(`api/users/profile/profile-photo-upload`, formData, {
         headers: {
           Authorization: `Bearer ${getState().auth.user.token}`,
+          "Content-Type": "multipart/form-data"
         }
       });
 
+      dispatch(setUserPhoto(data.profilePhoto));
+      toast.success(data.message);
+
+      const user = JSON.parse(localStorage.getItem('userInfo'));
+      user.profilePhoto = data.profilePhoto;
+      localStorage.setItem('userInfo', JSON.stringify(user));
+    }
+
+    // Handle other profile updates
+    for (const key of Object.keys(profile)) {
+      if (key !== 'photo' && profile[key] !== state[key]) {
+        updates[key] = profile[key];
+        if (key === 'username') {
+          dispatch(setUsername(profile[key]));
+          const user = JSON.parse(localStorage.getItem('userInfo'));
+          user.username = profile[key];
+          localStorage.setItem('userInfo', JSON.stringify(user));
+        }
+      }
+    }
+
+    if (Object.keys(updates).length) {
+      const { data } = await req.patch(`api/users/profile/${state._id}`, updates, {
+        headers: { Authorization: `Bearer ${getState().auth.user.token}` }
+      });
       toast.success(data.message);
     }
+
+    // Dispatch action to update profile in state
+    dispatch(updateProfileState(updates));
 
   } catch (error) {
     toast.error(error.response.data.message);
@@ -76,23 +70,18 @@ export const updateProfile = createAsyncThunk('profile/updateProfile', async (pr
   }
 });
 
-
 const profileSlice = createSlice({
   name: "profile",
-  initialState: {
-    profile: null
+  initialState: { profile: null },
+  reducers: {
+    updateProfileState(state, action) {
+      state.profile = { ...state.profile, ...action.payload };
+    }
   },
-  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUser.fulfilled, (state, action) => {
-      state.profile = action.payload;
-    })
-
-    // builder.addCase(updateProfile.fulfilled, (state, action) => {
-    //   state.profile = action.payload;
-    // })
+    builder.addCase(getUser.fulfilled, (state, action) => { state.profile = action.payload; });
   }
-})
+});
 
-export const { logout, clearSignUpMessage } = profileSlice.actions;
+export const { updateProfileState } = profileSlice.actions;
 export default profileSlice.reducer;

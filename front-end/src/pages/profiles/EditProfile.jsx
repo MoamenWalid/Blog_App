@@ -32,6 +32,8 @@ const EditProfile = () => {
     validationSchema: editProfileSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
+      const obj = { ...values }
+      if (photo !== profile.profilePhoto.url) obj.photo = photo;
       dispatch(updateProfile({ ...values, photo }));
     },
   });
