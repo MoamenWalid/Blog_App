@@ -71,7 +71,7 @@ export const updateProfile = createAsyncThunk(
       });
 
       // Update profile if there are changes
-    if (Object.keys(updates).length) {
+      if (Object.keys(updates).length) {
         const { data } = await req.patch(
           `api/users/profile/${state._id}`,
           updates,

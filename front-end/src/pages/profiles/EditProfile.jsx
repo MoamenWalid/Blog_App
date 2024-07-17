@@ -40,7 +40,6 @@ const EditProfile = () => {
 
   const handleChangeInput = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     if (file && file.type.startsWith('image/')) {
       setPhoto(URL.createObjectURL(file));
     } else {

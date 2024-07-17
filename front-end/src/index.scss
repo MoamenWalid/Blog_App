@@ -58,7 +58,7 @@ span.error {
 input,
 textarea,
 select {
-  @apply border border-[#DDD] border-solid rounded-[10px] py-[8px] px-[10px];
+  @apply bg-[#f0f0f05e] border border-[#DDD] border-solid rounded-[10px] py-[8px] px-[10px];
   outline: none;
 }
 
