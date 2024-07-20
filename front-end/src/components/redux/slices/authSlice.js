@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { req } from "../../utils/request";
 import { toast } from "react-toastify";
   
-export const loginUser = createAsyncThunk('auth/login', async (user, { rejectWithValue }) => {
+export const loginUser = createAsyncThunk('auth/loginUser', async (user, { rejectWithValue }) => {
   try {
     const { data } = await req.post("api/auth/login", user);
     return data;
@@ -15,7 +15,7 @@ export const loginUser = createAsyncThunk('auth/login', async (user, { rejectWit
   }
 })
 
-export const signUpUser = createAsyncThunk('auth/signUp', async (user, { rejectWithValue }) => {
+export const signUpUser = createAsyncThunk('auth/signUpUser', async (user, { rejectWithValue }) => {
   try {
     const { username, email, password } = user;
     const { data } = await req.post("api/auth/register", { username, email, password });
