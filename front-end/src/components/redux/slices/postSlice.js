@@ -18,6 +18,7 @@ const postSlice = createSlice({
   name: "post",
   initialState: {
     posts: [],
+    loadMore: {posts: [], loading: false},
     postsCount: null,
     postsCat: []
   },
@@ -25,12 +26,9 @@ const postSlice = createSlice({
     setPosts(state, action) {
       state.posts = action.payload
     },
-    setPostsCount(state, action) {
-      state.postsCount = action.payload
-    },
     setPostsCat(state, action) {
       state.postsCat = action.payload
-    },
+    }
   },
   extraReducers: (builder) => {}
 })

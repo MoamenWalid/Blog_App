@@ -1,8 +1,9 @@
+import PostsLoadMore from "../../components/posts/PostsLoadMore";
 
 const PostsPage = () => {
   return (
-    <div>
-      <h1>Posts</h1>
+    <div className="posts-page">
+      <PostsLoadMore title='Posts' />
     </div>
   );
 }

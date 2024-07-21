@@ -52,7 +52,7 @@ const createPostCtrl = asyncHandler(async (req, res) => {
 ------------------------------------------*/
 const getAllPostsCtrl = asyncHandler(async (req, res) => {
   const { page, category } = req.query;
-  const  POST_PER_PAGE = 3;
+  const  POST_PER_PAGE = 6;
   const skip = (page - 1) * POST_PER_PAGE;
   const query = {};
 
