@@ -15,9 +15,6 @@ const categorySchema = new mongoose.Schema({
   },
   img: {
     type: Object,
-    default: {
-      url: "https://cdn-icons-png.flaticon.com/512/7515/7515677.png"
-    }
   },
 }, { timestamps: true })
 
