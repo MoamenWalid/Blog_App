@@ -12,7 +12,13 @@ const categorySchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true
-  }
+  },
+  img: {
+    type: Object,
+    default: {
+      url: "https://cdn-icons-png.flaticon.com/512/7515/7515677.png"
+    }
+  },
 }, { timestamps: true })
 
 // Category Model
@@ -21,7 +27,8 @@ const Category = mongoose.model("Category", categorySchema);
 // Validate create comment
 const validateCreateCategory = (obj) => {
   const schema = Joi.object({
-    title: Joi.string().trim().required().label("title")
+    title: Joi.string().trim().required().label("title"),
+    img: Joi.string().trim().label("img url")
   })
 
   return schema.validate(obj);

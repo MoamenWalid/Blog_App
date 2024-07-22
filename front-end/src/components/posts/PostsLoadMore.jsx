@@ -33,7 +33,7 @@ const PostsLoadMore = ({ title }) => {
       
       { currentPage <= Math.ceil(postsCount / PER_PAGE) || loading ?
         <div className='flex items-center justify-center'>
-        <button onClick={ getMore } className='load-more text-[16px] px-4 py-2 font-medium text-[#696A75] rounded-[6px] border-[#696a75b2] border-solid border-[1px]'>{ loading ? 'Loading...' : 'Load More' }</button>
+        <button disabled={ loading ? true : false } onClick={ getMore } className='load-more text-[16px] px-4 py-2 font-medium text-[#696A75] rounded-[6px] border-[#696a75b2] border-solid border-[1px]'>{ loading ? 'Loading...' : 'Load More' }</button>
       </div>  
       : null}
     </div>

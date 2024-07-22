@@ -12,13 +12,22 @@ const createCategoryCtrl = asyncHandler(async (req, res) => {
   const { error } = validateCreateCategory(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
+  // Check if category already exists
+  const existingCategory = await Category.findOne({ title: req.body.title });
+  if (existingCategory) {
+    return res.status(400).json({ message: "Category already exists" });
+  }
+
   const category = new Category({
     title: req.body.title,
-    user: req.user.id
-  })
+    user: req.user.id,
+    img: {
+      url: req.body.img ? req.body.img : "https://cdn-icons-png.flaticon.com/512/7515/7515677.png"
+    }
+  });
   await category.save();
   res.status(201).json(category);
-})
+});
 
 
 /**-----------------------------------------
