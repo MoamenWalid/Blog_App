@@ -49,7 +49,7 @@ const Categories = ({ title }) => {
       >
         {categories.map((category, index) => (
           <SwiperSlide>
-            <BoxCategory key={`${category?._id}-index-${index}`} />
+            <BoxCategory title={ category.title } img={ category?.img?.url } key={`${category?._id}-index-${index}`} />
           </SwiperSlide>
         ))}
       </Swiper>
