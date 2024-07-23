@@ -1,50 +1,35 @@
-// import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import { req } from "../../utils/request";
-// import { toast } from "react-toastify";
 
-// export const getCategories = createAsyncThunk('post/getPosts', async (page, { rejectWithValue, dispatch }) => {
-//   try {
-//     const { data } = await req.get(`api/posts${ page && `?page=${page}` }`);
-//     dispatch(setPosts(data));
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { req } from "../../utils/request";
+import { toast } from "react-toastify";
 
-//   } catch (error) {
-//     toast.error(error.response.data.message);
-//     return rejectWithValue(error.response.data.message);
-//   }
-// })
+export const getCategories = createAsyncThunk('category/getCategories', async (_, { rejectWithValue }) => {
+  try {
+    const { data } = await req.get(`api/categories`);
+    return data;
 
-// const postSlice = createSlice({
-//   name: "post",
-//   initialState: {
-//     posts: [],
-//     postsLoadMore: [],
-//     currentPage: 1,
-//     postsCount: null,
-//     loading: false,
-//   },
-//   reducers: {
-//     setPosts(state, action) {
-//       state.posts = action.payload
-//     },
-//     setCurrentPage(state) {
-//       state.currentPage++;
-//     }
-//   },
-//   extraReducers: (builder) => {
-//     builder.addCase(getPostsLoadMore.pending, (state) => {
-//       state.loading = true;
-//     })
+  } catch (error) {
+    toast.error(error.response.data.message);
+    return rejectWithValue(error.response.data.message);
+  }
+})
 
-//     builder.addCase(getPostsLoadMore.fulfilled, (state, action) => {
-//       state.loading = false;
-//       state.postsLoadMore = [...state.postsLoadMore, ...action.payload];
-//     })
+const categorySlice = createSlice({
+  name: "category",
+  initialState: {
+    categories: [],
+    loading: false
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getCategories.pending, (state) => {
+      state.loading = true
+    })
 
-//     builder.addCase(getPostsCount.fulfilled, (state, action) => {
-//       state.postsCount = action.payload;
-//     })
-//   }
-// })
+    builder.addCase(getCategories.fulfilled, (state, action) => {
+      state.categories = action.payload;
+    })
+  }
+})
 
-// export const { setPosts, setCurrentPage } = postSlice.actions;
-// export default postSlice.reducer;
+export default categorySlice.reducer;
