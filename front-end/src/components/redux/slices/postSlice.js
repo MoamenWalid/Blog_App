@@ -13,9 +13,10 @@ export const getPosts = createAsyncThunk('post/getPosts', async (page, { rejectW
   }
 })
 
-export const getPostsLoadMore = createAsyncThunk('post/getPostsLoadMore', async (page, { rejectWithValue }) => {
+export const getPostsLoadMore = createAsyncThunk('post/getPostsLoadMore', async ({ page, category }, { rejectWithValue }) => {
   try {
-    const { data } = await req.get(`api/posts?page=${page}`);
+    console.log(page, category);
+    const { data } = await req.get(`api/posts?page=${page}&category=${category || ''}`);
     return data;
 
   } catch (error) {

@@ -2,23 +2,25 @@ import PostCart from './PostCart.jsx';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsLoadMore, setCurrentPage, getPostsCount } from '../redux/slices/postSlice';
+import { useParams } from 'react-router-dom';
 
 const PER_PAGE = 6;
 
 const PostsLoadMore = ({ title }) => {
+  const { category } = useParams();
   const dispatch = useDispatch();
   const { postsLoadMore, currentPage, postsCount, loading } = useSelector(state => state.post);  
 
   useEffect(() => {
     dispatch(getPostsCount());
     if (currentPage === 1) {
-      dispatch(getPostsLoadMore(currentPage));
+      dispatch(getPostsLoadMore({ page: currentPage, category }));
       dispatch(setCurrentPage());
     }
   }, []);
 
   const getMore = () => {
-    dispatch(getPostsLoadMore(currentPage));
+    dispatch(getPostsLoadMore({ page: currentPage, category }));
     dispatch(setCurrentPage());
   }
 
