@@ -1,9 +1,9 @@
-import PostsLoadMore from "../../components/posts/PostsLoadMore";
+import PostsBerPage from "../../components/posts/PostsBerPage.jsx";
 
 const PostsPage = () => {
   return (
     <div className="posts-page">
-      <PostsLoadMore title='Posts' />
+      <PostsBerPage title='Posts' />
     </div>
   );
 }
