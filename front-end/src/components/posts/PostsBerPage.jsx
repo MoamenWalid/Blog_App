@@ -7,7 +7,6 @@ const BER_PAGE = 6;
 
 const PostsBerPage = ({ title }) => {
   const dispatch = useDispatch();
-  // const { postsLoadMore, postsBerPage.currentPage, postsCount, loading } = useSelector(state => state.post);  
   const { postsBerPage } = useSelector(state => state.post);  
 
 

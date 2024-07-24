@@ -27,7 +27,8 @@ export const getPostsBerPage = createAsyncThunk('post/getPostsBerPage', async (p
 export const getPostsBerCategory = createAsyncThunk('post/getPostsBerCategory', async (category, { rejectWithValue }) => {
   try {
     const { data } = await req.get(`api/posts?category=${category || ''}`);
-    return data;
+    console.log(data, data.length);
+    return { data, length: data.length };
 
   } catch (error) {
     toast.error(error.response.data.message);
@@ -35,7 +36,7 @@ export const getPostsBerCategory = createAsyncThunk('post/getPostsBerCategory', 
   }
 })
 
-export const getPostsCount = createAsyncThunk('post/getPostsCount', async (page, { rejectWithValue }) => {
+export const getPostsCount = createAsyncThunk('post/getPostsCount', async (_, { rejectWithValue }) => {
   try {
     const { data } = await req.get(`api/posts/count`);
     return data.count;
@@ -84,8 +85,18 @@ const postSlice = createSlice({
       state.postsBerPage.posts  = [...state.postsBerPage.posts, ...action.payload];
     })
 
+    builder.addCase(getPostsBerCategory.pending, (state) => {
+      state.postsBerCategory.loading = true;
+    })
+
+    builder.addCase(getPostsBerCategory.fulfilled, (state, action) => {
+      state.postsBerCategory.loading = false;
+      state.postsBerCategory.posts  = [...state.postsBerCategory.posts, ...action.payload.data];
+      state.postsBerCategory.postsCount = action.payload.length;
+    })
+
     builder.addCase(getPostsCount.fulfilled, (state, action) => {
-      state.postsCount = action.payload;
+      state.postsBerPage.postsCount = action.payload;
     })
   }
 })
