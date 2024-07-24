@@ -14,13 +14,11 @@ const PostsBerPage = ({ title }) => {
     dispatch(getPostsCount());
     if (postsBerPage.currentPage === 1) {
       dispatch(getPostsBerPage(postsBerPage.currentPage));
-      dispatch(setCurrentPage());
     }
   }, []);
 
   const getMore = () => {
     dispatch(getPostsBerPage(postsBerPage.currentPage));
-    dispatch(setCurrentPage());
   }
 
   return (
