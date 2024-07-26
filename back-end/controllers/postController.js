@@ -89,7 +89,11 @@ const getSinglePostCtrl = asyncHandler(async (req, res) => {
  * @access  public
 ------------------------------------------*/
 const getPostsCountCtrl = asyncHandler(async (req, res) => {
-  const count = await Post.countDocuments();
+  const { category } = req.query;
+  const query = {};
+  if (category) query.category = category;
+
+  let count = await Post.find(query).countDocuments();
   res.status(200).json({ count });
 })
 
