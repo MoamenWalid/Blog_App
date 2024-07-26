@@ -8,7 +8,7 @@ import "./categories.scss";
 
 const Categories = ({ title }) => {
   const dispatch = useDispatch();
-  const { categories, loading } = useSelector((state) => state.category);
+  const { categories } = useSelector((state) => state.category);
 
   useEffect(() => {
     dispatch(getCategories());

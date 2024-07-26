@@ -1,7 +1,7 @@
 import PostCart from './PostCart.jsx';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostsBerPage, setCurrentPage, getPostsCount } from '../redux/slices/postSlice.js';
+import { getPostsBerPage, getPostsCount } from '../redux/slices/postSlice.js';
 
 const BER_PAGE = 6;
 
@@ -11,7 +11,7 @@ const PostsBerPage = ({ title }) => {
 
 
   useEffect(() => {
-    dispatch(getPostsCount());
+    dispatch(getPostsCount(''));
     if (postsBerPage.currentPage === 1) {
       dispatch(getPostsBerPage(postsBerPage.currentPage));
     }

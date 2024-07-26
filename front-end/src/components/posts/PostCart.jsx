@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 import { convertDate } from '../convernDate';
 import './post_cart.scss';
 
-const PostCart = ({ post }) => {
+const PostCart = ({ post, className }) => {
 
   return (
-    <div className='post-cart cursor-pointer bg-[#ffffff59] border border-[#e6e6e6] rounded-xl p-4'>
+    <div className={ `post-cart ${ className } cursor-pointer bg-[#ffffff59] border border-[#e6e6e6] rounded-xl p-4` }>
       <div className="photo overflow-hidden rounded-xl mb-4">
         <img width='100%' height='100%' className='min-h-[240px] max-h-[240px] object-cover object-center' src={ post?.image.url } alt="post-cart" />
       </div>
