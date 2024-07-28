@@ -54,6 +54,7 @@ const EditProfile = () => {
         <div className="photo relative w-[100px] md:w-[150px] h-[100px] md:h-[150px] flex items-center rounded-full border-[2px] md:border-[4px] border-solid border-gray">
           <div className="overflow-hidden w-full h-full rounded-full">
             <img
+              loading='lazy'
               className="w-full h-full object-cover object-[center_top]"
               src={photo}
               alt="avatar"

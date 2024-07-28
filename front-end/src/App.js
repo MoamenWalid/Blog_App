@@ -10,6 +10,7 @@ import Profile from "./pages/profiles/Profile";
 import NotFoundPage from "./pages/notfound/NotFoundPage";
 import { useSelector } from "react-redux";
 import PostsBerCategory from "./components/posts/PostsBerCategory";
+import SinglePost from "./components/posts/SinglePost";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -27,6 +28,7 @@ function App() {
           <Route index element={ <PostsPage /> } />
           <Route path="create-post" element={ user ? <CreatePost /> : <NotFoundPage /> } />
           <Route path=":category" element={ <PostsBerCategory title="Posts" /> } />
+          <Route path="details/:id" element={ <SinglePost /> } />
         </Route>
 
         <Route path="/profile/:id" element={ user ? <Profile /> : <NotFoundPage /> }/>

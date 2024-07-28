@@ -37,6 +37,26 @@ const getAllCommentsCtrl = asyncHandler(async (req, res) => {
   res.status(200).json(comments);
 })
 
+/**-----------------------------------------
+ * @desc    Get all comments
+ * @router  /api/comments/:id
+ * @method  GET
+ * @access  public
+------------------------------------------*/
+const getAllCommentsPerPostIdCtrl = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: 'Post ID is required' });
+  }
+
+  try {
+    const comments = await Comment.find({ postId: id }).populate('user');
+    res.status(200).json(comments);
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+})
 
 /**-----------------------------------------
  * @desc    Delete comment
@@ -78,4 +98,4 @@ const updateCommentCtrl = asyncHandler(async (req, res) => {
   res.status(200).json(updateComment);
 })
 
-export { createCommentCtrl, getAllCommentsCtrl, deleteCommentCtrl, updateCommentCtrl }; 
+export { createCommentCtrl, getAllCommentsCtrl, getAllCommentsPerPostIdCtrl, deleteCommentCtrl, updateCommentCtrl }; 

@@ -15,11 +15,11 @@ const Categories = ({ title }) => {
   }, []);
 
   return (
-    <div className="categories container mx-auto px-3 md:px-0">
+    <div className="categories container mx-auto px-3 md:px-0 mb-[56px] md:mb-[111px]">
       <h1 className="text-[#181A2A] m-[20px] font-bold text-[25px]">{title}</h1>
       <Swiper
         pagination={{ clickable: true }}
-        className="mySwiper"
+        className="mySwiper min-h-[200px]"
         breakpoints={{
           320: {
             slidesPerView: 1,
@@ -47,9 +47,9 @@ const Categories = ({ title }) => {
           },
         }}
       >
-        {categories.map((category, index) => (
-          <SwiperSlide>
-            <BoxCategory title={ category.title } img={ category?.img?.url } key={`${category?._id}-index-${index}`} />
+        {categories.map(category => (
+          <SwiperSlide key={category?._id}>
+            <BoxCategory title={ category.title } img={ category?.img?.url } />
           </SwiperSlide>
         ))}
       </Swiper>

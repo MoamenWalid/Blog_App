@@ -22,11 +22,10 @@ const PostsBerCategory = ({ title }) => {
 
   useEffect(() => {
     dispatch(getPostsPerCategory({ page: onPageChage, category }));
-    console.log(postsPerCategory.loading);
   }, [onPageChage, dispatch, category, postsPerCategory.loading])
 
   return (
-    <div className='posts-per-category container mx-auto mt-5 px-3 sm:px-0'>
+    <div className='posts-per-category container mx-auto my-5 px-3 sm:px-0'>
       <h1 className="text-[#181A2A] mb-5 font-bold text-[25px]">{ title }</h1>
       <>
       <Swiper
@@ -37,11 +36,11 @@ const PostsBerCategory = ({ title }) => {
           clickable: true,
         }}
         modules={[Pagination]}
-        className="mySwiper"
+        className="mySwiper min-h-[400px]"
       >
         {postsPerCategory.posts.map(post => (
         <SwiperSlide key={ `${post._id}` }>
-          <PostCart post={post} className='max-w-[390px] select-none' />
+          <PostCart post={post} className='w-[300px] md:w-[370px] select-none' />
         </SwiperSlide>
       ))}
       </Swiper>

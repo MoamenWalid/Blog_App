@@ -22,9 +22,9 @@ const PostsBerPage = ({ title }) => {
   }
 
   return (
-    <div className='container mx-auto mt-5 px-3 sm:px-0'>
+    <div className='container mx-auto my-5 px-3 sm:px-0'>
       <h1 className="text-[#181A2A] mb-5 font-bold text-[25px]">{ title }</h1>
-      <div className='posts-load-more mb-5  grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+      <div className='posts-load-more mb-[56px]  grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
         {postsBerPage.posts.map((post, index) => (
           <PostCart key={`${post?._id}-${index}-post`} post={post} />
         ))}
