@@ -6,7 +6,7 @@ const SidebarLinks = ({ toggle, reverseToggle }) => {
       <div onClick={ reverseToggle } className="close absolute top-5 left-5 bg-[#e22828] text-[#FFF] w-[30px] h-[30px] cursor-pointer flex items-center justify-center rounded-full">
         <i className="bi bi-x-lg"></i>
       </div>
-      <NavLinks ulStyle={ `mt-7 flex flex-col items-end` } liStyle={ `w-fit text-[25px] font-normal py-5 px-6` } />
+      <NavLinks reverseToggle={ reverseToggle } ulStyle={ `mt-7 flex flex-col items-end` } liStyle={ `w-fit text-[25px] font-normal py-5 px-6` } />
     </div>
   );
 }

@@ -9,16 +9,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // import required modules
 import { Pagination } from 'swiper/modules';
 import './post_per_category.scss';
+import Spinner from '../animation/Spinner';
 
 const PostsBerCategory = ({ title }) => {
   const dispatch = useDispatch();
   const { category } = useParams();
   const [onPageChage, setOnPageChange] = useState(1);
-  const { postsPerCategory } = useSelector(state => state.post);  
+  const { postsPerCategory } = useSelector(state => state.post);
 
   useEffect(() => {
     dispatch(getPostsCount(category));
-  }, [])
+  }, [dispatch, category])
 
   useEffect(() => {
     dispatch(getPostsPerCategory({ page: onPageChage, category }));
@@ -28,6 +29,7 @@ const PostsBerCategory = ({ title }) => {
     <div className='posts-per-category container mx-auto my-5 px-3 sm:px-0'>
       <h1 className="text-[#181A2A] mb-5 font-bold text-[25px]">{ title }</h1>
       <>
+      { postsPerCategory.loading ? <Spinner /> : null }
       <Swiper
         slidesPerView={'auto'}
         centeredSlides={true}
