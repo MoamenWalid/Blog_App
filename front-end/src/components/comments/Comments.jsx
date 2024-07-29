@@ -4,7 +4,7 @@ import { createComment, getComments } from '../redux/slices/commentSlice';
 import { ToastContainer } from 'react-toastify';
 import { convertDate } from '../convernDate';
 import { Link } from 'react-router-dom';
-import '../animation/spiner.scss';
+import Spinner from '../animation/Spinner';
 
 const Comments = ({ postId }) => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const Comments = ({ postId }) => {
   const handleSubmitComment = () => {
     setSubmitLoading(true);
     if (text.current.value && postId) {
-      dispatch(createComment({ postId, text: text.current.value }))
+      dispatch(createComment({ postId, text: text.current.value.trim() }))
         .then((result) => {
           if (result.meta.requestStatus === 'fulfilled') {
             setSubmitLoading(false);
@@ -42,10 +42,10 @@ const Comments = ({ postId }) => {
           </div>
         : null }
       
-        <div className="show-comments">
-          <h2 className='text-dark text-[23px] font-medium mb-4'>Comments</h2>
-          <div className="comments relative flex flex-col h-[400px] overflow-auto gap-[20px] bg-[#ffffff6b] p-[20px] rounded-[10px]">
-            { loading ? <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> : null }
+        { comments && comments.length ? <div className="show-comments">
+          <h2 className='text-dark text-[23px] font-medium mb-4'>Comments <span className='text-blue ml-[5px] bg-[#f6f8ff] font-normal text-[19px] p-[1px_10px] rounded-[10px]'>{ comments.length }</span></h2>
+          <div className="comments relative flex flex-col h-auto max-h-[400px] overflow-auto gap-[20px] bg-[#ffffff6b] p-[20px] rounded-[10px]">
+            { loading ? <Spinner /> : null }
             {comments && comments.map(comment => 
               <div key={comment._id} className="comment flex flex-col gap-[20px] p-[20px] bg-[#ffffff30] rounded-[8px] [box-shadow:2px_2px_8px_var(--shadow-gray)]">
                 <Link to={`/profile/${comment?.user?._id}`} className="user flex items-center gap-4">
@@ -57,11 +57,11 @@ const Comments = ({ postId }) => {
                   <span className="created-at font-normal text-gray">{ convertDate(comment?.createdAt) }</span>
                 </Link>
 
-                <p>{ comment?.text }</p>
+                <p className='whitespace-break-spaces'>{ comment?.text }</p>
               </div>
             )}
           </div>
-        </div>
+        </div> : null }
       </div>
     </>
   );

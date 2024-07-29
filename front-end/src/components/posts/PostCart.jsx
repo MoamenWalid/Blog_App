@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { convertDate } from '../convernDate';
 import './post_cart.scss';
-import '../animation/spiner.scss';
 import { useState } from 'react';
 import { truncateText } from '../truncateText';
+import Spinner from '../animation/Spinner';
 
 const PostCart = ({ post, className }) => {
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ const PostCart = ({ post, className }) => {
     <div className={ `post-cart ${ className } cursor-pointer bg-[#ffffff59] border border-[#e6e6e6] rounded-xl p-4` }>
       <Link to={`/posts/details/${ post._id }`} >
         <div className="relative min-h-[240px] max-h-[240px] photo overflow-hidden rounded-xl mb-4">
-          { loading ? <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> : null}
+          { loading ? <Spinner /> : null}
           <img loading='lazy' onLoad={ handleImageLoad } width='100%' height='100%' className='img-post min-h-[240px] object-cover object-center' src={ post?.image.url } alt="post-cart" />
         </div>
         

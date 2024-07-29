@@ -96,13 +96,19 @@ export const updateProfile = createAsyncThunk(
 // Profile slice
 const profileSlice = createSlice({
   name: "profile",
-  initialState: { profile: null },
+  initialState: {
+    profile: null
+  },
   reducers: {
     updateProfileState(state, action) {
       state.profile = { ...state.profile, ...action.payload };
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getUser.pending, (state, action) => {
+      state.profile = {};
+    });
+
     builder.addCase(getUser.fulfilled, (state, action) => {
       state.profile = action.payload;
     });

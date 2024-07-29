@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser, updateProfile } from "../../components/redux/slices/profileSlice";
-import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../../components/redux/slices/profileSlice";
 import { useFormik } from "formik";
 import { editProfileSchema } from "../forms/schema";
 import { ToastContainer, toast } from "react-toastify";
+import Spinner from "../../components/animation/Spinner";
 
-const EditProfile = () => {
+const EditProfile = ({ id, user, profile }) => {
   const dispatch = useDispatch();
-  const { id } = useParams();
-  const { profile } = useSelector((state) => state.profile);
 
   const [photo, setPhoto] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(getUser(id));
-  }, [dispatch, id]);
-
-  useEffect(() => {
-    if (profile) {
-      setPhoto(profile?.profilePhoto?.url || null);
-    }
-  }, [profile]);
+    setPhoto(user?.profilePhoto?.url || null);
+  }, [user]);
 
   const formik = useFormik({
     initialValues: {
@@ -32,9 +25,11 @@ const EditProfile = () => {
     validationSchema: editProfileSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      const obj = { ...values }
-      if (photo !== profile.profilePhoto.url) obj.photo = photo;
-      dispatch(updateProfile({ ...values, photo }));
+      if (id && user && id === user._id) {
+        const obj = { ...values }
+        if (photo !== profile.profilePhoto.url) obj.photo = photo;
+        dispatch(updateProfile({ ...values, photo }));
+      }
     },
   });
 
@@ -47,13 +42,19 @@ const EditProfile = () => {
     }
   };
 
+  const handleImageLoad = () => {
+    setLoading(false);
+  };
+
   return (
     <>
       <ToastContainer position="top-center" />
-      <section className="profile mx-auto my-0 sm:my-[90px] flex flex-col gap-3 items-center py-[30px] px-[30px] rounded-[0] sm:rounded-[24px] w-full sm:w-[500px] md:w-[600px] bg-[#ffffff9e] border-[0] sm:border border-[#EEE]">
+      <section className="profile mx-auto my-0 sm:my-[50px] flex flex-col gap-3 items-center py-[30px] px-[30px] rounded-[0] sm:rounded-[24px] w-full h-[calc(100vh-60px)] sm:h-fit sm:w-[500px] md:w-[600px] bg-[#ffffff9e] border-[0] sm:border border-[#EEE]">
         <div className="photo relative w-[100px] md:w-[150px] h-[100px] md:h-[150px] flex items-center rounded-full border-[2px] md:border-[4px] border-solid border-gray">
+          { loading ? <Spinner /> : null }
           <div className="overflow-hidden w-full h-full rounded-full">
             <img
+              onLoad={ handleImageLoad }
               loading='lazy'
               className="w-full h-full object-cover object-[center_top]"
               src={photo}

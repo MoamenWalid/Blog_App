@@ -51,7 +51,10 @@ const getAllCommentsPerPostIdCtrl = asyncHandler(async (req, res) => {
   }
 
   try {
-    const comments = await Comment.find({ postId: id }).populate('user');
+    const comments = await Comment.find({ postId: id })
+    .populate('user')
+    .sort({ createdAt: -1 });
+    
     res.status(200).json(comments);
   } catch (error) {
     res.status(500).json({ message: 'Server Error', error: error.message });

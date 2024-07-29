@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getPosts, getSinglePost } from '../redux/slices/postSlice';
-import '../animation/spiner.scss';
 import { convertDate } from '../convernDate.js';
 import Comments from '../comments/Comments.jsx';
+import Spinner from '../animation/Spinner.jsx';
 
 const SinglePost = () => {
   const { id } = useParams();
@@ -26,14 +26,14 @@ const SinglePost = () => {
     <section id='single-post' className='mb-[56px] md:mb-[111px]'>
       { singlePost.loading ? 
         <div className='w-full h-screen bg-white fixed top-[60px] z-30'>
-          <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <Spinner />
         </div>
       : null }
 
       <div className="single-post flex flex-col justify-between gap-3 md:flex-row container mx-auto px-3 mt-[30px] md:mt-[56px] mb-[35px]">
         <div className='content w-full md:w-[70%]'>
         <div className="photo relative rounded-md overflow-hidden w-full h-[200px] sm:h-[300px] lg:h-[500px] xl-[600px] mb-[16px] md:mb-[32px]">
-          { loading ? <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> : null}
+          { loading ? <Spinner /> : null}
           <img loading='lazy' className='h-full object-cover object-center' onLoad={ handleImageLoad } width='100%' height='100%' src={ singlePost?.post?.image?.url } alt="post-img" />
           </div>
 
