@@ -79,8 +79,6 @@ export const getPostsCount = createAsyncThunk('post/getPostsCount', async (categ
   }
 })
 
-
-
 const postSlice = createSlice({
   name: "post",
   initialState: {

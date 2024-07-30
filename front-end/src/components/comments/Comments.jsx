@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createComment, deleteComment, editComment, getComments } from '../redux/slices/commentSlice';
+import { createComment, deleteComment, editComment, getCommentsPerPostId } from '../redux/slices/commentSlice';
 import { ToastContainer } from 'react-toastify';
 import { convertDate } from '../convernDate';
 import { Link } from 'react-router-dom';
@@ -12,13 +12,13 @@ const Comments = ({ postId }) => {
   const dispatch = useDispatch();
   const text = useRef(null);
   const { user } = useSelector(state => state.auth);
-  const { comments, loading } = useSelector(state => state.comment);
+  const { commentsPerPostId, loading } = useSelector(state => state.comment);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [editableCommentId, setEditableCommentId] = useState(null);
   const [editableText, setEditableText] = useState('');
 
   useEffect(() => {
-    if (postId) dispatch(getComments(postId));
+    if (postId) dispatch(getCommentsPerPostId(postId));
   }, [dispatch, postId]);
 
   const handleSubmitComment = () => {
@@ -96,11 +96,11 @@ const Comments = ({ postId }) => {
           : null
         }
 
-        {comments && comments.length ? <div className="show-comments">
-          <h2 className='text-dark text-[23px] font-medium mb-4'>Comments <span className='text-blue ml-[5px] bg-[#f6f8ff] font-normal text-[19px] px-[10px] rounded-[6px]'>{comments.length}</span></h2>
+        {commentsPerPostId && commentsPerPostId.length ? <div className="show-comments">
+          <h2 className='text-dark text-[23px] font-medium mb-4'>Comments <span className='text-blue ml-[5px] bg-[#f6f8ff] font-normal text-[19px] px-[10px] rounded-[6px]'>{commentsPerPostId.length}</span></h2>
           <div className="comments relative flex flex-col h-auto max-h-[400px] overflow-auto gap-[20px] bg-[#ffffff6b] p-[20px] rounded-[10px]">
             {loading ? <Spinner /> : null}
-            {comments && comments.map(comment =>
+            {commentsPerPostId && commentsPerPostId.map(comment =>
               <div key={comment._id} className="comment flex flex-col gap-[20px] p-[20px] bg-[#ffffff30] rounded-[8px] [box-shadow:2px_2px_8px_var(--shadow-gray)]">
                 <Link to={`/profile/${comment?.user?._id}`} className="user flex items-center gap-4">
                   <div className="avatar overflow-hidden w-[30px] h-[30px] rounded-full">

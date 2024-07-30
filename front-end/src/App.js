@@ -11,6 +11,10 @@ import NotFoundPage from "./pages/notfound/NotFoundPage";
 import { useSelector } from "react-redux";
 import PostsBerCategory from "./components/posts/PostsBerCategory";
 import SinglePost from "./components/posts/SinglePost";
+import GetPosts from "./pages/admin/GetPosts";
+import GetCategories from "./pages/admin/GetCategories";
+import GetComments from "./pages/admin/GetComments";
+import GetMembers from "./pages/admin/GetMembers";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -32,7 +36,15 @@ function App() {
         </Route>
 
         <Route path="/profile/:id" element={ user ? <Profile /> : <NotFoundPage /> }/>
-        <Route path="/admin-dashboard" element={ user?.isAdmin ? <Admin /> : <NotFoundPage /> } />
+        
+        <Route path="admin-dashboard">
+          <Route index element={ user?.isAdmin ? <Admin /> : <NotFoundPage /> } />
+          <Route path="users" element={ user?.isAdmin ? <GetMembers /> : <NotFoundPage /> } />
+          <Route path="posts" element={ user?.isAdmin ? <GetPosts /> : <NotFoundPage /> } />
+          <Route path="categories" element={ user?.isAdmin ? <GetCategories /> : <NotFoundPage /> } />
+          <Route path="comments" element={ user?.isAdmin ? <GetComments /> : <NotFoundPage /> } />
+        </Route>
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 

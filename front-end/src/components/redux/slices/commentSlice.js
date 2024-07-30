@@ -12,7 +12,7 @@ export const createComment = createAsyncThunk('category/createComment', async ({
     });
 
     toast.success('Create comment successfully');
-    dispatch(getComments(postId));
+    dispatch(getCommentsPerPostId(postId));
 
   } catch (error) {
     toast.error(error.response.data.message);
@@ -20,10 +20,25 @@ export const createComment = createAsyncThunk('category/createComment', async ({
   }
 })
 
-export const getComments = createAsyncThunk('category/createComment', async (id, { rejectWithValue }) => {
+export const getAllComments = createAsyncThunk('category/getAllComments', async (_, { rejectWithValue, getState }) => {
+  try {
+    const { data } = await req.get('api/comments', {
+      headers: {
+        Authorization: `Bearer ${getState().auth.user.token}`,
+      },
+    });
+
+    return data;
+
+  } catch (error) {
+    toast.error(error.response.data.message);
+    return rejectWithValue(error.response.data.message);
+  }
+})
+
+export const getCommentsPerPostId = createAsyncThunk('category/getCommentsPerPostId', async (id, { rejectWithValue }) => {
   try {
     const { data } = await req.get(`api/comments/${ id }`);
-    console.log(data);
     return data;
 
   } catch (error) {
@@ -41,7 +56,7 @@ export const editComment = createAsyncThunk('category/editComment', async ({ pos
     });
 
     toast.success('Update comment successfully');
-    dispatch(getComments(postId));
+    dispatch(getCommentsPerPostId(postId));
 
   } catch (error) {
     toast.error(error.response.data.message);
@@ -57,7 +72,7 @@ export const deleteComment = createAsyncThunk('category/deleteComment', async ({
       },
     });
 
-    dispatch(getComments(postId));
+    dispatch(getCommentsPerPostId(postId));
 
   } catch (error) {
     toast.error(error.response.data.message);
@@ -69,17 +84,22 @@ const commentSlice = createSlice({
   name: "comment",
   initialState: {
     comments: [],
+    commentsPerPostId: [],
     loading: false
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getComments.pending, (state) => {
+    builder.addCase(getAllComments.fulfilled, (state, action) => {
+      state.comments = action.payload;
+    })
+
+    builder.addCase(getCommentsPerPostId.pending, (state) => {
       state.loading = true;
     })
 
-    builder.addCase(getComments.fulfilled, (state, action) => {
+    builder.addCase(getCommentsPerPostId.fulfilled, (state, action) => {
       state.loading = false;
-      state.comments = action.payload;
+      state.commentsPerPostId = action.payload;
     })
   }
 })
