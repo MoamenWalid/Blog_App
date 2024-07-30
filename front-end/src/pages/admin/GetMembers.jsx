@@ -31,8 +31,8 @@ const GetMembers = () => {
           </Link>
 
           <div className="change-status flex items-center gap-4">
-            <button className='style-admin-user same-style'>Admin</button>
-            <button className='style-member-user same-style'>Member</button>
+            <button className='style-admin same-style'>Admin</button>
+            <button className='style-member same-style'>Member</button>
             <button className="delete-member">
               <i class="bi bi-trash3"></i>
             </button>
