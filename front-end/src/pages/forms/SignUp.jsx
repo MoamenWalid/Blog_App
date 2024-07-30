@@ -3,12 +3,12 @@ import Form from "./Form.jsx";
 import { signUpSchema } from "./schema.js";
 import { useDispatch, useSelector } from "react-redux";
 import { clearSignUpMessage, signUpUser } from "../../components/redux/slices/authSlice.js";
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 
 
 const SignUp = () => {
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const { signUpMessage } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -29,15 +29,16 @@ const SignUp = () => {
   });
 
   if (signUpMessage) {
-    swal({
+    Swal.fire({
       title: signUpMessage,
-      icon: "success"
-    }).then(isOk => {
-      if(isOk) {
-        navigator('/login');
+      icon: "success",
+      confirmButtonText: "OK"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/login');
         dispatch(clearSignUpMessage());
       }
-    })
+    });
   }
 
   return (

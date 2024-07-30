@@ -15,6 +15,7 @@ module.exports = {
         blue: 'var(--blue-color)',
       },
       screens: {
+        xsm: '350px',
         sm: '576px',
         md: '768px',
         lg: '992px',

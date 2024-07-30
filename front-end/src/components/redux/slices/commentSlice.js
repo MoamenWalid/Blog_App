@@ -11,7 +11,7 @@ export const createComment = createAsyncThunk('category/createComment', async ({
       },
     });
 
-    toast.success('Create post successfully');
+    toast.success('Create comment successfully');
     dispatch(getComments(postId));
 
   } catch (error) {
@@ -23,7 +23,7 @@ export const createComment = createAsyncThunk('category/createComment', async ({
 export const getComments = createAsyncThunk('category/createComment', async (id, { rejectWithValue }) => {
   try {
     const { data } = await req.get(`api/comments/${ id }`);
-
+    console.log(data);
     return data;
 
   } catch (error) {
@@ -32,7 +32,38 @@ export const getComments = createAsyncThunk('category/createComment', async (id,
   }
 })
 
+export const editComment = createAsyncThunk('category/editComment', async ({ postId, commentId, text }, { rejectWithValue, getState, dispatch }) => {
+  try {
+    await req.patch(`api/comments/${ commentId }`, { text }, {
+      headers: {
+        Authorization: `Bearer ${getState().auth.user.token}`,
+      },
+    });
 
+    toast.success('Update comment successfully');
+    dispatch(getComments(postId));
+
+  } catch (error) {
+    toast.error(error.response.data.message);
+    return rejectWithValue(error.response.data.message);
+  }
+})
+
+export const deleteComment = createAsyncThunk('category/deleteComment', async ({ postId, commentId }, { rejectWithValue, getState, dispatch }) => {
+  try {
+    await req.delete(`api/comments/${ commentId }`, {
+      headers: {
+        Authorization: `Bearer ${getState().auth.user.token}`,
+      },
+    });
+
+    dispatch(getComments(postId));
+
+  } catch (error) {
+    toast.error(error.response.data.message);
+    return rejectWithValue(error.response.data.message);
+  }
+})
 
 const commentSlice = createSlice({
   name: "comment",

@@ -1,8 +1,8 @@
 
 const Admin = () => {
   return (
-    <div className="dashboard mt-[30px]">
-      <div className="collection m-[24px] grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+    <div className="dashboard container mx-auto py-3 mt-[40px]">
+      <div className="collection grid gap-3 mb-[30px] grid-cols-1 xsm:grid-cols-2 md:grid-cols-4">
         <div style={{ boxShadow: '1px 1px 5px #3f3f3f1a' }} className="users bg-white py-[15px] px-[20px] rounded-[10px] flex gap-2 flex-col items-start">
           <h3 className="title flex gap-2 text-[20px] font-medium">
             <i className="bi bi-people"></i>

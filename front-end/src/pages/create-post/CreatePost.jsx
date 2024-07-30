@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../../components/redux/slices/postSlice";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import swal from 'sweetalert';  
+import Swal from 'sweetalert2';
 import { getCategories } from "../../components/redux/slices/categorySlice";
 
 const CreatePost = () => {
   const dispatch = useDispatch();
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const { loading } = useSelector(state => state.post.createSinglePost); 
   const { categories } = useSelector(state => state.category); 
   const image = useRef(null);
@@ -32,14 +32,15 @@ const CreatePost = () => {
         description: description.current.value
       })).then((result) => {
           if (result.meta.requestStatus === 'fulfilled') {
-            swal({
+            Swal.fire({
               title: "Create post successfully",
-              icon: "success"
-            }).then(isOk => {
-              if(isOk) {
-                navigator('/')
+              icon: "success",
+              confirmButtonText: "OK"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate('/');
               }
-            })
+            });
           }
         })
       }

@@ -85,6 +85,7 @@ const postSlice = createSlice({
   name: "post",
   initialState: {
     posts: [],
+    loading: false,
     singlePost: {
       post: {},
       loading: false
@@ -106,7 +107,7 @@ const postSlice = createSlice({
   },
   reducers: {
     setPosts(state, action) {
-      state.posts = action.payload
+      state.posts = action.payload;
     },
 
     setPostsCount(state, action) {
@@ -131,7 +132,8 @@ const postSlice = createSlice({
     })
 
     builder.addCase(getSinglePost.pending, (state) => {
-      state.singlePost.loading = true;
+      state.singlePost.post = {};
+      state.singlePost.loading = true; 
     })
 
     builder.addCase(getSinglePost.fulfilled, (state, action) => {
@@ -148,9 +150,9 @@ const postSlice = createSlice({
     })
 
     builder.addCase(getPostsBerPage.fulfilled, (state, action) => {
-      state.postsBerPage.loading = false;
       state.postsBerPage.posts  = [...state.postsBerPage.posts, ...action.payload];
       state.postsBerPage.currentPage++;
+      state.postsBerPage.loading = false;
     })
 
     builder.addCase(getPostsBerPage.rejected, (state) => {
@@ -158,17 +160,17 @@ const postSlice = createSlice({
     })
 
     builder.addCase(getPostsPerCategory.pending, (state) => {
-      state.postsPerCategory.loading = true;
       state.postsPerCategory.posts  = [];
+      state.postsPerCategory.loading = true;
     })
 
     builder.addCase(getPostsPerCategory.fulfilled, (state, action) => {
-      state.postsBerPage.loading = false;
       state.postsPerCategory.posts  = action.payload;
+      state.postsPerCategory.loading = false;
     })
 
     builder.addCase(getPostsPerCategory.rejected, (state) => {
-      state.postsBerPage.loading = false;
+      state.postsPerCategory.loading = false;
     })
   }
 })

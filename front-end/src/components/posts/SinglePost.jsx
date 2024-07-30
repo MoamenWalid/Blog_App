@@ -45,8 +45,8 @@ const SinglePost = () => {
             <div className="avatar overflow-hidden w-[50px] h-[50px] rounded-full">
               <img className='w-full h-full object-cover object-center' src={ singlePost?.post?.user?.profilePhoto?.url } alt="avatar-user" />
             </div>
-            <span className="username font-medium text-gray">{ singlePost?.post?.user?.username }</span>
-            <span className="created-at font-normal text-gray">{ convertDate(singlePost?.post?.createdAt) }</span>
+            <span className="username font-medium text-gray text-[15px]">{ singlePost?.post?.user?.username }</span>
+            <span className="created-at font-normal text-gray text-[15px]">{ convertDate(singlePost?.post?.createdAt) }</span>
           </Link>
         
           <p className="description whitespace-break-spaces text-[18px] md:text-[20px] mb-[16px] md:mb-[32px]">{ singlePost?.post?.description }</p>
@@ -54,7 +54,8 @@ const SinglePost = () => {
 
         <div className="last-3-posts sticky top-[100px] max-h-screen flex flex-col gap-4 w-full md:w-[25%]">
           <h2 className='text-dark text-[23px] font-medium'>You can also read</h2>
-          <div className='posts grid gap-[25px] grid-cols-1 sm:grid-cols-2 md:grid-cols-1'>
+          <div className='posts relative grid gap-[25px] grid-cols-1 sm:grid-cols-2 md:grid-cols-1'>
+            
             { posts && posts.slice(0, 4).map(post => 
               post?.id !== singlePost?.post?._id ?
               <Link to={`/posts/details/${post?._id}`} className='post-in-lastes flex flex-row md:flex-col lg:flex-row gap-3' key={post?._id}>
@@ -65,8 +66,8 @@ const SinglePost = () => {
                 <div className="box">
                   <div className="title">{ post?.title }</div>
                   <div className="user flex flex-row gap-3">
-                    <span className="username font-medium text-gray">{ post?.user?.username }</span>
-                    <span className="created-at font-normal text-gray">{ convertDate(post?.createdAt) }</span>
+                    <span className="username font-medium text-gray text-[15px]">{ post?.user?.username }</span>
+                    <span className="created-at font-normal text-gray text-[15px]">{ convertDate(post?.createdAt) }</span>
                   </div>
                 </div>
               </Link>

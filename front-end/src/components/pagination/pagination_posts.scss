@@ -1,10 +1,5 @@
 .pagination {
-  margin-top: 50px;
-  user-select: none;
-  display: flex;
-  justify-content: center;
-  list-style: none;
-  padding: 0;
+@apply mt-[30px] md:mt-[35px] select-none flex justify-center [list-style:none] p-0;
 }
 
 .pagination li {
@@ -12,17 +7,11 @@
 }
 
 .pagination li a {
-  cursor: pointer;
-  padding: 5px 10px;
-  border: 1px solid #ddd;
-  color: #007bff;
-  text-decoration: none;
+  @apply cursor-pointer px-[10px] py-[5px] border-[1px] border-[solid] border-[#ddd] text-[#007bff] no-underline;
 }
 
 .pagination li.active a {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
+  @apply bg-[#007bff] text-[white] border-[#007bff];
 }
 
 .pagination li a:hover {
