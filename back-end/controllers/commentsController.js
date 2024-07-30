@@ -70,7 +70,7 @@ const getAllCommentsPerPostIdCtrl = asyncHandler(async (req, res) => {
 const deleteCommentCtrl = asyncHandler(async (req, res) => {
   const comment = await Comment.findById(req.params.id);
   if (!comment) return res.status(404).json({ message: "comment not found" });
-  if (req.user.isAdmed || req.user.id == comment.user) {
+  if (req.user.isAdmin || req.user.id == comment.user) {
     await Comment.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "comment has been deleted" });
   } else res.status(403).json({ message: "access denied, not allowed" }); 
