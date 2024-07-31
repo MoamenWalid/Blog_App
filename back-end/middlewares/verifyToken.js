@@ -36,7 +36,7 @@ const verifyTokenAndOnlyUser = (req, res, next) => {
 // Verify token & Authorization
 const verifyTokenAndAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user.id == (req.params.id || req.user.isAdmin)) return next();
+    if (req.user.id == req.params.id || req.user.isAdmin) return next();
     res.status(403).json({ message: "not allowed, only user himself or admin" });
   });
 }

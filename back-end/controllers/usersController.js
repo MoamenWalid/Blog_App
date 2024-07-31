@@ -1,7 +1,5 @@
 import asyncHandler from "express-async-handler";
 import { User, validateUpdateUser } from "../models/User.js";
-import { response } from "express";
-import path from "node:path";
 import fs from "node:fs";
 import bcrypt from "bcryptjs";
 import { dirName } from "../middlewares/photoUpload.js";
@@ -44,7 +42,9 @@ const getUsersCountCtrl = asyncHandler(async (req, res) => {
 ------------------------------------------*/
 
 const getSingleUserCtrl = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select("-password").populate('posts');
+  const user = await User.findById(req.params.id)
+    .select("-password")
+    .populate("posts");
   if (!user) return res.status(400).json({ message: "user not found" });
   res.status(200).json(user);
 });
@@ -58,8 +58,7 @@ const getSingleUserCtrl = asyncHandler(async (req, res) => {
 
 const updateUserCtrl = asyncHandler(async (req, res) => {
   const { error } = validateUpdateUser(req.body);
-  if (error)
-    return res.status(400).json({ message: error.details[0].message });
+  if (error) return res.status(400).json({ message: error.details[0].message });
   if (req.body.password) {
     const salt = bcrypt.genSaltSync(10);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
@@ -77,7 +76,34 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
     { new: true }
   ).select("-password");
 
-  res.status(200).json({ updateUser, message: "Your profile data upload successfully" });
+  res
+    .status(200)
+    .json({ updateUser, message: "Your profile data upload successfully" });
+});
+
+/**-----------------------------------------
+ * @desc    update status of member
+ * @router  /admin-dashboard/users/:id
+ * @method  PATCH
+ * @access  private (only admin)
+------------------------------------------*/
+
+const updateStausOfMember = asyncHandler(async (req, res) => {
+  if (req.user.isAdmin) {
+    const updateMember = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          isAdmin: req.body.isAdmin,
+        },
+      },
+      { new: true }
+    ).select("-password");
+
+    res
+      .status(200)
+      .json({ updateMember, message: `change status successfully` });
+  }
 });
 
 /**-----------------------------------------
@@ -101,7 +127,8 @@ const profilePhotoUploadCtrl = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 
   // Delete the old profile photo if exist
-  if (user.profilePhoto.publicId !== null) await cloudinaryRemoveImage(user.profilePhoto.publicId);
+  if (user.profilePhoto.publicId !== null)
+    await cloudinaryRemoveImage(user.profilePhoto.publicId);
 
   // Change the profilePhoto field in the DB
   user.profilePhoto = {
@@ -128,30 +155,34 @@ const profilePhotoUploadCtrl = asyncHandler(async (req, res) => {
 ------------------------------------------------*/
 
 const deleteUserProfileCtrl = asyncHandler(async (req, res) => {
-  // Get the user from DB
-  const user = await User.findById(req.params.id);
-  if (!user) return res.status(400).json({ message: "user not found" });
+  try {
+    // Get the user from DB
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(400).json({ message: "user not found" });
 
-  // Get all posts from DB
-  const posts = await Post.find({ user: user._id });
+    // Get all posts from DB
+    const posts = await Post.find({ user: user._id });
 
-  // Get the public ids from the posts
-  const publicIds = posts?.map(post => post.image.publicId);
+    // Get the public ids from the posts
+    const publicIds = posts?.map((post) => post.image.publicId);
 
-  // Delete all posts image from cloudinary that belong to this user
-  if (publicIds?.length) await cloudinaryRemoveImages(publicIds);
+    // Delete all posts image from cloudinary that belong to this user
+    if (publicIds?.length) await cloudinaryRemoveImages(publicIds);
 
-  // Delete the profile picture from cloudinary
-  await cloudinaryRemoveImage(user.profilePhoto.publicId);
+    // Delete the profile picture from cloudinary
+    await cloudinaryRemoveImage(user.profilePhoto.publicId);
 
-  // Delete user posts & comments
-  await Post.deleteMany({ user: user._id });
-  await Comment.deleteMany({ user: user._id });
-  // Delete the user himself
-  await User.findByIdAndDelete(req.params.id);
+    // Delete user posts & comments
+    await Post.deleteMany({ user: user._id });
+    await Comment.deleteMany({ user: user._id });
+    // Delete the user himself
+    await User.findByIdAndDelete(req.params.id);
 
-  // Send a response to the client
-  res.status(200).json({ message: "your profile has been deleted" });
+    // Send a response to the client
+    res.status(200).json({ message: "the profile has been deleted" });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export {
@@ -159,6 +190,7 @@ export {
   getUsersCountCtrl,
   getSingleUserCtrl,
   updateUserCtrl,
+  updateStausOfMember,
   profilePhotoUploadCtrl,
   deleteUserProfileCtrl,
 };

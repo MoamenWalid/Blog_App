@@ -37,6 +37,45 @@ export const getSingleUser = createAsyncThunk('category/getSingleUser', async (i
   }
 })
 
+// Change status of member
+export const changeStatusOfMember = createAsyncThunk("profile/changeStatusOfMember", async ({ id, status }, { rejectWithValue, getState }) => {
+  try {
+    const { data } = await req.patch(`admin-dashboard/users/${id}`, { isAdmin: status }, {
+      headers: {
+        Authorization: `Bearer ${getState().auth.user.token}`
+      }
+    });
+
+    toast.success(data.message);
+    return data;
+
+  } catch (error) {
+    toast.error(error.response.data.message);
+    return rejectWithValue(error.response.data.message);
+  }
+}
+);
+
+// Change status of member
+export const deleteMember = createAsyncThunk("profile/deleteMember", async (id, { rejectWithValue, getState, dispatch }) => {
+  try {
+    const { data } = await req.delete(`api/users/profile/${id}`, {
+      headers: {
+        Authorization: `Bearer ${getState().auth.user.token}`
+      }
+    });
+
+    toast.success(data.message);
+    dispatch(getAllUsers());
+    return data;
+
+  } catch (error) {
+    toast.error(error.response.data.message);
+    return rejectWithValue(error.response.data.message);
+  }
+}
+);
+
 // Profile slice
 const userSlice = createSlice({
   name: "user",
@@ -48,6 +87,7 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllUsers.pending, (state) => {
+      state.users = [];
       state.loading = true;
     })
 
