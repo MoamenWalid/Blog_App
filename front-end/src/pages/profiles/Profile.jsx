@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ShowBrotherProfile from './ShowBrotherProfile';
 import { getUser } from '../../components/redux/slices/profileSlice';
+import PostsInProfile from './PostsInProfile';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -16,10 +17,12 @@ const Profile = () => {
   }, [dispatch, id]);
 
   return (
-    <div>
+    <div className='container mx-auto mt-[30px] mb-[56px] md:mb-[90px]'>
+      <h1 className="text-[#181A2A] m-[20px] font-bold text-[25px]">Profile Page</h1>
       { id && user && id === user._id 
       ? <EditProfile id={ id } user={ user } profile={ profile } /> 
       : <ShowBrotherProfile profile={ profile } /> }
+      <PostsInProfile username={ profile?.username } posts={ profile?.posts } />
     </div>
   );
 }

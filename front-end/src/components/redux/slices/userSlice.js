@@ -38,7 +38,7 @@ export const getSingleUser = createAsyncThunk('category/getSingleUser', async (i
 })
 
 // Change status of member
-export const changeStatusOfMember = createAsyncThunk("profile/changeStatusOfMember", async ({ id, status }, { rejectWithValue, getState }) => {
+export const changeStatusOfMember = createAsyncThunk("profile/changeStatusOfMember", async ({ id, status }, { rejectWithValue, getState, dispatch }) => {
   try {
     const { data } = await req.patch(`admin-dashboard/users/${id}`, { isAdmin: status }, {
       headers: {
@@ -47,6 +47,7 @@ export const changeStatusOfMember = createAsyncThunk("profile/changeStatusOfMemb
     });
 
     toast.success(data.message);
+    dispatch(getAllUsers());
     return data;
 
   } catch (error) {

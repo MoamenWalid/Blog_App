@@ -21,7 +21,7 @@ const commentSchema = new mongoose.Schema({
     type: String,
     required: true
   }
-}, { timestamps: true })
+}, { timestamps: true });
 
 // Comment Model
 const Comment = mongoose.model("Comment", commentSchema);
@@ -31,18 +31,18 @@ const validateCreateComment = (obj) => {
   const schema = Joi.object({
     postId: Joi.string().required().label("post id"),
     text: Joi.string().trim().required().label("text")
-  })
+  });
 
   return schema.validate(obj);
-}
+};
 
 // Validate update comment
 const validateUpdateComment = (obj) => {
   const schema = Joi.object({
     text: Joi.string().trim().required()
-  })
+  });
 
   return schema.validate(obj);
-}
+};
 
 export { Comment, validateCreateComment, validateUpdateComment };

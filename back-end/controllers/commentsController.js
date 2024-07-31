@@ -25,7 +25,6 @@ const createCommentCtrl = asyncHandler(async (req, res) => {
   res.status(201).json(comment);
 })
 
-
 /**-----------------------------------------
  * @desc    Get all comments
  * @router  /api/comments
@@ -33,9 +32,9 @@ const createCommentCtrl = asyncHandler(async (req, res) => {
  * @access  private (only admin)
 ------------------------------------------*/
 const getAllCommentsCtrl = asyncHandler(async (req, res) => {
-  const comments = await Comment.find().populate('user');
+  const comments = await Comment.find().populate('user').populate('postId');
   res.status(200).json(comments);
-})
+});
 
 /**-----------------------------------------
  * @desc    Get all comments

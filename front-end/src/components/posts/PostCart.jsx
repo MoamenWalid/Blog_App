@@ -12,7 +12,7 @@ const PostCart = ({ post, className }) => {
   };
 
   return (
-    <div className={`post-cart ${className} bg-[#ffffff59] border border-[#e6e6e6] rounded-xl p-4`}>
+    <div className={`post-cart relative ${className} bg-[#ffffff59] border border-[#e6e6e6] rounded-xl p-4`}>
       <div className="relative min-h-[240px] max-h-[240px] photo overflow-hidden rounded-xl mb-4">
         {loading ? <Spinner /> : null}
         <Link to={`/posts/details/${post._id}`}>
@@ -30,7 +30,7 @@ const PostCart = ({ post, className }) => {
       
       <Link to={`/profile/${post?.user?._id}`} className="author w-fit flex items-center flex-row gap-4">
         <div className="avatar w-[36px] h-[36px] rounded-full overflow-hidden">
-          <img loading='lazy' className='w-full h-full object-cover object-[center_top]' src={post?.user.profilePhoto.url} alt="avatar" />
+          <img loading='lazy' className='w-full h-full object-cover object-[center_top]' src={post?.user?.profilePhoto?.url} alt="avatar" />
         </div>
         <span className="name block text-[16px] font-medium text-[#97989F]">
           {post?.user.username}

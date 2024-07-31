@@ -47,7 +47,7 @@ const Categories = ({ title }) => {
           },
         }}
       >
-        {categories.map(category => (
+        {categories?.map(category => (
           <SwiperSlide key={category?._id}>
             <BoxCategory title={ category.title } img={ category?.img?.url } />
           </SwiperSlide>

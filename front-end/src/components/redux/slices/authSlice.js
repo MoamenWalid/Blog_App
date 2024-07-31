@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { req } from "../../utils/request";
 import { toast } from "react-toastify";
-  
+
 export const loginUser = createAsyncThunk('auth/loginUser', async (user, { rejectWithValue }) => {
   try {
     const { data } = await req.post("api/auth/login", user);

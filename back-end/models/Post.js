@@ -1,6 +1,5 @@
-import mongoose, { Mongoose, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import Joi from "joi";
-import jwt from "jsonwebtoken";
 
 // Post schema
 const postSchema = new mongoose.Schema({
@@ -39,14 +38,14 @@ const postSchema = new mongoose.Schema({
       ref: "User"
     }
   ]
-}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
+}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
 // Populate comment for this post
 postSchema.virtual("comments", {
   ref: "Comment",
   foreignField: "postId",
   localField: "_id"
-})
+});
 
 // Post model
 const Post = mongoose.model('Post', postSchema);
@@ -57,10 +56,10 @@ const validateCreatePost = (obj) => {
     title: Joi.string().trim().min(2).max(200).required(),
     description: Joi.string().trim().min(10).required(),
     category: Joi.string().trim().required(),
-  })
+  });
 
   return schema.validate(obj);
-}
+};
 
 // Validate update post
 const validateUpdatePost = (obj) => {
@@ -68,9 +67,9 @@ const validateUpdatePost = (obj) => {
     title: Joi.string().trim().min(2).max(200),
     description: Joi.string().trim().min(10),
     category: Joi.string().trim(),
-  })
+  });
 
   return schema.validate(obj);
-}
+};
 
 export { Post, validateCreatePost, validateUpdatePost };
