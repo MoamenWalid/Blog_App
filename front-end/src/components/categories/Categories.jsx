@@ -12,7 +12,7 @@ const Categories = ({ title }) => {
 
   useEffect(() => {
     dispatch(getCategories());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="categories container mx-auto px-3 md:px-0 mb-[56px] md:mb-[111px]">
