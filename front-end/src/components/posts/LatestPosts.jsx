@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 
 const LatestPosts = ({ posts, title }) => {
-  
   return (
     <div className="latest-posts mb-[56px] md:mb-[111px]">
     <h1 className="text-[#181A2A] m-[20px] font-bold text-[25px]">{ title }</h1>

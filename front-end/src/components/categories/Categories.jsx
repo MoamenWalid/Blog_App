@@ -19,31 +19,20 @@ const Categories = ({ title }) => {
       <h1 className="text-[#181A2A] m-[20px] font-bold text-[25px]">{title}</h1>
       <Swiper
         pagination={{ clickable: true }}
+        spaceBetween={ 35 }
         className="mySwiper min-h-[200px]"
         breakpoints={{
-          320: {
+          400: {
             slidesPerView: 1,
-            spaceBetween: 10,
-          },
-          480: {
-            slidesPerView: 2,
-            spaceBetween: 15,
           },
           640: {
-            slidesPerView: 3,
-            spaceBetween: 20,
+            slidesPerView: 2,
           },
           768: {
-            slidesPerView: 4,
-            spaceBetween: 25,
+            slidesPerView: 3,
           },
           1024: {
-            slidesPerView: 5,
-            spaceBetween: 30,
-          },
-          1200: {
-            slidesPerView: 6,
-            spaceBetween: 35,
+            slidesPerView: 4,
           },
         }}
       >

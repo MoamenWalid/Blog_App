@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import LoginSignBtn from "./LoginSignBtn";
 import Logo from "./Logo";
 import NavLinks from "./NavLinks";
@@ -7,7 +7,7 @@ import SidebarLinks from "./SidebarLinks";
 import { useSelector } from "react-redux";
 import UserInfo from "./UserInfo";
 
-const Header = () => {
+const Header = React.memo(() => {
   const [toggle, setToggle] = useState(false);
   const { user } = useSelector(state => state.auth);
 
@@ -32,6 +32,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
+})
 
 export default Header;

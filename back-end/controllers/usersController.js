@@ -9,6 +9,7 @@ import {
   cloudinaryUploadImage,
 } from "../utils/cloudinary.js";
 import { Post } from "../models/Post.js";
+import path from "node:path";
 
 /**-----------------------------------------
  * @desc    Get all users profile
@@ -118,34 +119,42 @@ const profilePhotoUploadCtrl = asyncHandler(async (req, res) => {
   if (!req.file) return res.status(400).json({ message: "no file provided" });
 
   // Get the path to the image
-  const iamgePath = path.join(dirName, `/photos/${req.file.filename}`);
+  const imagePath = path.join(dirName, `/photos/${req.file.filename}`);
 
-  // Upload to cloudinary
-  const result = await cloudinaryUploadImage(iamgePath);
+  try {
+    // Upload to cloudinary
+    const result = await cloudinaryUploadImage(imagePath);
 
-  // Get the user from DB
-  const user = await User.findById(req.user.id);
+    // Get the user from DB
+    const user = await User.findById(req.user.id);
 
-  // Delete the old profile photo if exist
-  if (user.profilePhoto.publicId !== null)
-    await cloudinaryRemoveImage(user.profilePhoto.publicId);
+    // Delete the old profile photo if exist
+    if (user.profilePhoto.publicId !== null) {
+      await cloudinaryRemoveImage(user.profilePhoto.publicId);
+    }
 
-  // Change the profilePhoto field in the DB
-  user.profilePhoto = {
-    url: result.secure_url,
-    publicId: result.public_id,
-  };
-  await user.save();
+    // Change the profilePhoto field in the DB
+    user.profilePhoto = {
+      url: result.secure_url,
+      publicId: result.public_id,
+    };
+    await user.save();
 
-  // Send response to client
-  res.status(200).json({
-    message: "your profile photo upload successfully",
-    profilePhoto: { url: result.secure_url, publicId: result.public_id },
-  });
+    // Send response to client
+    res.status(200).json({
+      message: "your profile photo upload successfully",
+      profilePhoto: { url: result.secure_url, publicId: result.public_id },
+    });
 
-  // Remove image from the server
-  fs.unlinkSync(iamgePath);
+    // Remove image from the server
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
+
 
 /**-----------------------------------------------
  * @desc    Delete user profile (Account)
