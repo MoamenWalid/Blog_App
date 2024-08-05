@@ -3,6 +3,8 @@ import Header from "./components/header/Header";
 import { useSelector } from "react-redux";
 import React, { Suspense } from "react";
 
+// Hello
+
 const Home = React.lazy(() => import('./pages/home/Home'));
 const Login = React.lazy(() => import('./pages/forms/Login'));
 const SignUp = React.lazy(() => import('./pages/forms/SignUp'));
