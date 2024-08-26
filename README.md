@@ -25,7 +25,7 @@ cd Blog_App
 ```
 
 ```bash
-cd backend
+cd backend-side
 ```
 
 ```
@@ -49,15 +49,9 @@ CLOUDINARY_SECRET=YOUR_CLOUDINARY_SECRET
 
 ### Second Step: Start the Frontend
 
-1. Navigate to the project directory:
-
-```bash
-cd Blog_App
-```
-
 2. Move into the `Frontend` directory:
 ```bash
-cd frontend
+cd ../frontend-side
 ```
 
 3. Install the necessary dependencies:
@@ -77,7 +71,7 @@ npm start
 1. Navigate to the `Backend` directory:
 
 ```bash
-cd ../backend
+cd ../backend-side
 ```
 
 2. Install the necessary dependencies:
