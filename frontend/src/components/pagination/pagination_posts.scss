@@ -1,0 +1,19 @@
+.pagination {
+@apply mt-[30px] md:mt-[35px] select-none flex justify-center [list-style:none] p-0;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination li a {
+  @apply cursor-pointer px-[10px] py-[5px] border-[1px] border-[solid] border-[#ddd] text-[#007bff] no-underline;
+}
+
+.pagination li.active a {
+  @apply bg-[#007bff] text-[white] border-[#007bff];
+}
+
+.pagination li a:hover {
+  background-color: #ddd;
+}

@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Import Swiper styles
+@import 'swiper/css';
+@import 'swiper/css/effect-coverflow';
+@import 'swiper/css/pagination';
+
+* {
+  direction: auto;
+  unicode-bidi: plaintext;
+}
+
+textarea {
+  resize: none;
+}
+
+// Root
+:root {
+  --white-color: #FFF;
+  --white-gray: #f2f2f2;
+  --gray-color: #A1A1AA;
+  --dark-color: #181A2A;
+  --black-color: #000;
+  --blue-color: #4B6BFB;
+  --shadow-gray: #dddddd70;
+}
+
+// Scroll bar
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b4b4b4;
+  border: 4px solid #f1f1f1;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+// Overlayout
+.overlayout {
+  backdrop-filter: blur(6px);
+  z-index: 2;
+}
+
+// Body
+body {
+  &::before,
+  &::after {
+    content: '';
+    @apply fixed z-[-1] #{ !important };
+    box-shadow: -500px 0 600px 500px #ebc89d30, 752px -100px 600px 250px #ecaeaf4b, 251px 0 600px 250px #00d0ff1f;
+  }
+  &::before {
+    @apply right-[600px] top-[700px];
+  }
+  
+  &::after {
+    @apply left-[300px] top-[40%];
+  }
+}
+
+// Forms
+.form-parent {
+  @apply w-full flex items-start justify-center mt-6;
+  .form-div {
+    @apply py-[40px] md:py-[55px] px-[40px] rounded-[24px] w-[90%] sm:w-[450px] bg-[#ffffff9e] border border-[#EEE];
+    textarea {
+      height: 150px;
+    }
+  }
+}
+
+span.error {
+  @apply text-[#f44336] pl-[5px] text-[15px];
+}
+
+input,
+textarea,
+select {
+  @apply bg-[#f0f0f05e] border border-[#DDD] border-solid rounded-[10px] py-[8px] px-[10px];
+  outline: none;
+}
+
+.form-btn {
+  @apply w-full border border-solid border-gray py-[10px] rounded-[32px] mb-[32px];
+}
